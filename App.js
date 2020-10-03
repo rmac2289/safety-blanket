@@ -40,6 +40,7 @@ export default function App() {
         )}
       </View>
       <View>
+        <Text style={styles.police}>Police</Text>
         {city != null && <ClosestDepts city={city} county={county} />}
       </View>
       <Search />
@@ -52,6 +53,15 @@ const styles = StyleSheet.create({
     marginTop: 75,
     width: "100%",
     height: Dimensions.get("window").height,
+  },
+  police: {
+    fontWeight: "800",
+    textAlign: "left",
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "90%",
+    fontSize: 24,
+    textDecorationLine: "underline",
   },
   textView: {
     width: "95%",
