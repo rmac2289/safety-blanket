@@ -1,56 +1,44 @@
 import React from "react";
-import { Agencies } from "../Data";
 import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
   StyleSheet,
-  Pressable,
+  TouchableOpacity,
 } from "react-native";
-import * as Linking from "expo-linking";
+import { Agencies } from "../Data";
 
-const ClosestDepts = (props) => {
+const SearchResults = (props) => {
   const formatPhoneNum = (number) => {
     let match = number.match(/^(\d{3})(\d{3})(\d{4})$/);
     return `(${match[1]}) ${match[2]}-${match[3]}`;
   };
 
-  const agencyList = Agencies.filter(
-    (v) => v.city.includes(props.city) || v.agency.includes(props.county)
-  );
-  const openPhone = (num) => {
-    const url = `tel:${num}`;
-    return Linking.openURL(url);
-  };
-  const openMaps = (street, city, state, zip) => {
-    street = street.split(" ").join("+");
-    let url = `https://www.google.com/maps/search/?api=1&query=${street}%2C${city}%2C${state}%2C${zip}`;
-    Linking.openURL(url);
-  };
-  const agencyDisplay = agencyList.map((v) => (
+  const agencyList = Agencies.map((v) => (
     <View style={styles.container} key={v.agency}>
       <Text style={styles.text}>{v.agency}</Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => openPhone(v.phone)}
+        /* onPress={() => openPhone(v.phone)} */
       >
         <Text style={styles.buttonText}>
-          Call Now: {formatPhoneNum(v.phone)}
+          Call Now: {/* {formatPhoneNum(v.phone)} */}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
+        /* onPress={() => openMaps(v.street, v.city, v.state, v.zip)} */
         style={styles.text}
       >
-        <Text style={styles.text}>
+        {/*<Text style={styles.text}>
           {v.street}, {v.city}, {v.state}, {v.zip}
-        </Text>
+  </Text>*/}
       </TouchableOpacity>
     </View>
-  ));
+  )).filter((v) =>
+    v.key.toLowerCase().includes(props.searchText.toLowerCase())
+  );
 
-  return <ScrollView>{agencyDisplay}</ScrollView>;
+  return <ScrollView style={styles.container}>{agencyList}</ScrollView>;
 };
 
 const styles = StyleSheet.create({
@@ -73,5 +61,4 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-
-export default ClosestDepts;
+export default SearchResults;

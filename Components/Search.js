@@ -7,23 +7,41 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
+import SearchResults from "../Components/SearchResults";
 
 const Search = (props) => {
+  const [showResults, setShowResults] = useState(false);
   const [searchText, setSearchText] = useState("");
+
+  const toggleShowResults = () => {
+    if (searchText === "") {
+      setShowResults(false);
+    } else {
+      return setShowResults(!showResults);
+    }
+  };
   return (
-    <View style={styles.container}>
-      <Text style={styles.search}>
-        Search for a munipality by name or location
-      </Text>
-      <TextInput
-        style={styles.textInput}
-        onChangeText={(text) => setSearchText(text)}
-        vale={searchText}
-      />
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.text}>Search</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <View style={styles.container}>
+        <Text style={styles.search}>Search for a munipality by name</Text>
+        <TextInput
+          style={styles.textInput}
+          onChangeText={(text) => setSearchText(text)}
+          vale={searchText}
+        />
+        <TouchableOpacity
+          onPress={() => toggleShowResults()}
+          style={styles.button}
+        >
+          <Text style={styles.text}>Search</Text>
+        </TouchableOpacity>
+      </View>
+      {searchText !== "" && (
+        <ScrollView style={styles.listBox}>
+          <SearchResults searchText={searchText} />
+        </ScrollView>
+      )}
+    </>
   );
 };
 
@@ -51,18 +69,24 @@ const styles = StyleSheet.create({
     padding: 1,
   },
   button: {
-    height: 30,
+    padding: 10,
     width: 100,
     backgroundColor: "black",
+    borderWidth: 3,
     borderRadius: 5,
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: 10,
   },
   text: {
-    color: "white",
+    color: "#51A0D5",
     fontSize: 20,
     textAlign: "center",
+  },
+  listBox: {
+    width: "95%",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 });
 
