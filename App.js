@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import * as Location from "expo-location";
-import ResultsList from "./Components/ResultsList";
+import ClosestDepts from "./Components/ClosestDepts";
+import Search from "./Components/Search";
 
 export default function App() {
   const [location, setLocation] = useState(null);
@@ -26,24 +27,40 @@ export default function App() {
       setCounty(reverseGeo[0].subregion);
     })();
   }, []);
-  let text = "Waiting...";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = city;
-  }
 
   return (
     <View style={styles.container}>
-      <Text>You're in {text}, the closest department is..</Text>
-      {city != null && <ResultsList city={city} county={county} />}
+      <View style={styles.textView}>
+        {location ? (
+          <Text style={styles.text}>
+            You're in {city}, the closest department is..
+          </Text>
+        ) : (
+          <Text style={styles.text}>Loading...</Text>
+        )}
+      </View>
+      <View>
+        {city != null && <ClosestDepts city={city} county={county} />}
+      </View>
+      <Search />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: 100,
+    marginTop: 75,
+    width: "100%",
+    height: Dimensions.get("window").height,
+  },
+  textView: {
+    width: "95%",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginBottom: 30,
+  },
+  text: {
+    fontSize: 24,
+    textAlign: "center",
   },
 });

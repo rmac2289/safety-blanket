@@ -13,11 +13,12 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app uses location to give the user appropriate phone numbers for emergency services nearby."
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
