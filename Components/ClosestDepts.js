@@ -12,6 +12,7 @@ import * as Linking from "expo-linking";
 import { Button } from "native-base";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { Divider } from "react-native-elements";
 
 const ClosestDepts = (props) => {
   const formatPhoneNum = (n) => {
@@ -20,7 +21,7 @@ const ClosestDepts = (props) => {
 
   const agencyList = Agencies.filter(
     (v) =>
-      v.city.includes(props.city) ||
+      v.city === props.city ||
       (v.agency.includes(props.county) && !v.agency.includes("("))
   );
   const openPhone = (num) => {
@@ -33,27 +34,36 @@ const ClosestDepts = (props) => {
     Linking.openURL(url);
   };
   const agencyDisplay = agencyList.map((v) => (
-    <View style={styles.container} key={v.agency}>
-      <Text style={styles.text}>{v.agency}</Text>
-      {/*<Text style={styles.text}>
+    <React.Fragment key={v.agency}>
+      <View style={styles.container}>
+        <Text style={styles.text}>{v.agency}</Text>
+        {/*<Text style={styles.text}>
         {v.street}, {v.city}, {v.state}, {v.zip}
   </Text>*/}
-      <Button style={styles.button} onPress={() => openPhone(v.phone)}>
-        <FontAwesomeIcon style={styles.icon} icon={faPhone} />
-        <Text style={styles.buttonText}>{formatPhoneNum(v.phone)}</Text>
-      </Button>
-      <Button
-        onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
-        style={styles.mapsButton}
-      >
-        <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
-        <Text style={styles.buttonText}>Open in Google Maps</Text>
-      </Button>
-    </View>
+        <Button style={styles.button} onPress={() => openPhone(v.phone)}>
+          <FontAwesomeIcon style={styles.icon} icon={faPhone} />
+          <Text style={styles.buttonText}>{formatPhoneNum(v.phone)}</Text>
+        </Button>
+        <Button
+          onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
+          style={styles.mapsButton}
+        >
+          <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
+          <Text style={styles.buttonText}>Open in Google Maps</Text>
+        </Button>
+      </View>
+      <Divider
+        style={{
+          backgroundColor: "rgba(0,0,0,0.2)",
+          height: 5,
+          marginBottom: 10,
+        }}
+      />
+    </React.Fragment>
   ));
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.scrollView}>
       {agencyDisplay}
 
       <View style={styles.container}>
@@ -86,6 +96,7 @@ const ClosestDepts = (props) => {
           <Text style={styles.buttonText}>Open in Google Maps</Text>
         </Button>
       </View>
+      <Divider style={{ backgroundColor: "rgba(0,0,0,0.2)", height: 5 }} />
     </ScrollView>
   );
 };
@@ -96,10 +107,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginLeft: "auto",
     marginRight: "auto",
-    borderBottomWidth: 2,
-    borderBottomColor: "rgba(0,0,0,0.1)",
     paddingTop: 5,
     paddingBottom: 5,
+  },
+  scrollView: {
+    marginBottom: 20,
   },
   icon: {
     color: "white",

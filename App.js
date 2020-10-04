@@ -11,6 +11,7 @@ import * as Location from "expo-location";
 import * as Linking from "expo-linking";
 import ClosestDepts from "./Components/ClosestDepts";
 import Search from "./Components/Search";
+import { Divider } from "react-native-elements";
 
 export default function App() {
   const [location, setLocation] = useState(null);
@@ -59,6 +60,13 @@ export default function App() {
           <Text style={styles.text}>{errorMsg}...</Text>
         )}
       </View>
+      <Divider
+        style={{
+          backgroundColor: "rgba(0,0,0,0.2)",
+          height: 5,
+          marginBottom: 10,
+        }}
+      />
       <View>
         {city != null && <ClosestDepts city={city} county={county} />}
       </View>
@@ -71,6 +79,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: Dimensions.get("window").height,
+    backgroundColor: "rgba(0,0,0,0.1)",
   },
   nine11: {
     backgroundColor: "black",
@@ -78,7 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 15,
     padding: 10,
-    paddingTop: 30,
+    paddingTop: 50,
     justifyContent: "center",
   },
   nine11Text: {
@@ -95,6 +104,7 @@ const styles = StyleSheet.create({
   call911Text: {
     color: "white",
     textAlign: "center",
+    fontWeight: "700",
     fontSize: 24,
     padding: 5,
   },
@@ -111,9 +121,12 @@ const styles = StyleSheet.create({
     width: "95%",
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: 30,
+    marginBottom: 15,
+    height: 50,
     backgroundColor: "black",
     borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
     color: "white",

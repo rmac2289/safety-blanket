@@ -4,13 +4,23 @@ import { Agencies } from "../Data";
 import { Button } from "native-base";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import * as Linking from "expo-linking";
 
 const SearchResults = (props) => {
   const formatPhoneNum = (n) => {
     return `(${n[0]}${n[1]}${n[2]}) ${n[3]}${n[4]}${n[5]}-${n[6]}${n[7]}${n[8]}${n[9]}`;
   };
-
-  const agencyList = Agencies.map((v) => (
+  const openMaps = (street, city, state, zip) => {
+    street = street.split(" ").join("+");
+    if (city.split(" ").length > 1) {
+      city = city.split(" ").join("%2C");
+    }
+    let url = `https://www.google.com/maps/search/?api=1&query=${street}%2C${city}%2C${state}%2C${zip}`;
+    Linking.openURL(url);
+  };
+  const agencyList = Agencies.filter((v) =>
+    v.agency.toLowerCase().includes(props.searchText.toLowerCase())
+  ).map((v) => (
     <View style={styles.container} key={v.agency}>
       <Text style={styles.text}>{v.agency}</Text>
       {/*<Text style={styles.text}>
@@ -31,9 +41,7 @@ const SearchResults = (props) => {
         <Text style={styles.buttonText}>Open in Google Maps</Text>
       </Button>
     </View>
-  )).filter((v) =>
-    v.key.toLowerCase().includes(props.searchText.toLowerCase())
-  );
+  ));
 
   return <ScrollView style={styles.scrollContainer}>{agencyList}</ScrollView>;
 };
@@ -44,8 +52,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: "auto",
     marginRight: "auto",
-    borderBottomWidth: 2,
-    borderBottomColor: "rgba(0,0,0,0.1)",
     paddingBottom: 10,
   },
   scrollContainer: {
