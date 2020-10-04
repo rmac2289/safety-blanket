@@ -54,15 +54,12 @@ export default function App() {
       </View>
       <View style={styles.textView}>
         {location ? (
-          <Text style={styles.text}>
-            You're in {city}, the closest departments are..
-          </Text>
+          <Text style={styles.text}>{city} Public Safety Agencies</Text>
         ) : (
           <Text style={styles.text}>{errorMsg}...</Text>
         )}
       </View>
       <View>
-        <Text style={styles.police}>Police</Text>
         {city != null && <ClosestDepts city={city} county={county} />}
       </View>
       <Search />

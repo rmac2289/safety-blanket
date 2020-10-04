@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Agencies } from "../Data";
 import {
   View,
@@ -9,6 +9,9 @@ import {
   Pressable,
 } from "react-native";
 import * as Linking from "expo-linking";
+import { Button } from "native-base";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 const ClosestDepts = (props) => {
   const formatPhoneNum = (n) => {
@@ -32,22 +35,20 @@ const ClosestDepts = (props) => {
   const agencyDisplay = agencyList.map((v) => (
     <View style={styles.container} key={v.agency}>
       <Text style={styles.text}>{v.agency}</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => openPhone(v.phone)}
-      >
-        <Text style={styles.buttonText}>
-          Call Now: {formatPhoneNum(v.phone)}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
+      {/*<Text style={styles.text}>
+        {v.street}, {v.city}, {v.state}, {v.zip}
+  </Text>*/}
+      <Button style={styles.button} onPress={() => openPhone(v.phone)}>
+        <FontAwesomeIcon style={styles.icon} icon={faPhone} />
+        <Text style={styles.buttonText}>{formatPhoneNum(v.phone)}</Text>
+      </Button>
+      <Button
         onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
-        style={styles.text}
+        style={styles.mapsButton}
       >
-        <Text style={styles.text}>
-          {v.street}, {v.city}, {v.state}, {v.zip}
-        </Text>
-      </TouchableOpacity>
+        <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
+        <Text style={styles.buttonText}>Open in Google Maps</Text>
+      </Button>
     </View>
   ));
 
@@ -56,26 +57,34 @@ const ClosestDepts = (props) => {
       {agencyDisplay}
 
       <View style={styles.container}>
-        <Text style={{ fontSize: 22, fontWeight: "700" }}>
+        <Text
+          style={{
+            fontSize: 22,
+            fontWeight: "700",
+            color: "blue",
+            marginBottom: 5,
+          }}
+        >
           On a state highway?
         </Text>
         <Text style={styles.text}>Oregon State Police</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => openPhone("*677")}
-        >
-          <Text style={styles.buttonText}>Call Now: *677</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        {/*<Text style={styles.text}>
+          3565 Trelstad Avenue SE, Salem, OR, 97317
+  </Text>*/}
+
+        <Button style={styles.button} onPress={() => openPhone("*677")}>
+          <FontAwesomeIcon style={styles.icon} icon={faPhone} />
+          <Text style={styles.buttonText}>*677</Text>
+        </Button>
+        <Button
           onPress={() =>
             openMaps("3565 Trelstad Avenue SE", "Salem", "OR", "97317")
           }
-          style={styles.text}
+          style={styles.mapsButton}
         >
-          <Text style={styles.text}>
-            3565 Trelstad Avenue SE, Salem, OR, 97317
-          </Text>
-        </TouchableOpacity>
+          <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
+          <Text style={styles.buttonText}>Open in Google Maps</Text>
+        </Button>
       </View>
     </ScrollView>
   );
@@ -84,12 +93,22 @@ const ClosestDepts = (props) => {
 const styles = StyleSheet.create({
   container: {
     width: "90%",
-    marginBottom: 25,
+    marginBottom: 15,
     marginLeft: "auto",
     marginRight: "auto",
+    borderBottomWidth: 2,
+    borderBottomColor: "rgba(0,0,0,0.1)",
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  icon: {
+    color: "white",
+    marginRight: 10,
   },
   text: {
     fontSize: 20,
+    fontWeight: "600",
+    marginBottom: 5,
   },
   buttonText: {
     fontSize: 20,
@@ -97,6 +116,13 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#51A0D5",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 2.5,
+    marginTop: 2.5,
+  },
+  mapsButton: {
+    backgroundColor: "rgba(128,0,0,0.8)",
     borderRadius: 5,
     padding: 10,
     marginBottom: 2.5,

@@ -8,33 +8,24 @@ import {
   TextInput,
 } from "react-native";
 import SearchResults from "../Components/SearchResults";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const Search = (props) => {
-  const [showResults, setShowResults] = useState(false);
   const [searchText, setSearchText] = useState("");
 
-  const toggleShowResults = () => {
-    if (searchText === "") {
-      setShowResults(false);
-    } else {
-      return setShowResults(!showResults);
-    }
-  };
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.search}>Search for a municipality by name</Text>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => setSearchText(text)}
-          vale={searchText}
-        />
-        <TouchableOpacity
-          onPress={() => toggleShowResults()}
-          style={styles.button}
-        >
-          <Text style={styles.text}>Search</Text>
-        </TouchableOpacity>
+        <View style={styles.searchContainer}>
+          <FontAwesomeIcon style={styles.icon} icon={faSearch} />
+          <TextInput
+            placeholder="search by department name"
+            style={styles.textInput}
+            onChangeText={(text) => setSearchText(text)}
+            vale={searchText}
+          />
+        </View>
       </View>
       {searchText !== "" && (
         <ScrollView style={styles.listBox}>
@@ -46,8 +37,20 @@ const Search = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: 200,
+  container: {},
+  searchContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "95%",
+    borderWidth: 2,
+    borderColor: "rgba(0,0,0,0.3)",
+    marginLeft: "auto",
+    marginRight: "auto",
+    padding: 10,
+    borderRadius: 50,
+    backgroundColor: "rgba(0,0,0,0.1)",
+    marginBottom: 25,
   },
   search: {
     marginLeft: "auto",
@@ -57,26 +60,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 10,
   },
-  textInput: {
-    borderWidth: 2,
-    borderColor: "black",
-    width: "85%",
-    marginLeft: "auto",
-    marginRight: "auto",
-    borderRadius: 5,
-    height: 35,
-    fontSize: 22,
-    padding: 1,
+  icon: {
+    color: "rgba(0,0,0,0.5)",
+    width: "8%",
   },
-  button: {
-    padding: 10,
-    width: 100,
-    backgroundColor: "black",
-    borderWidth: 3,
-    borderRadius: 5,
+  textInput: {
     marginLeft: "auto",
     marginRight: "auto",
-    marginTop: 10,
+    borderRadius: 5,
+    fontSize: 22,
+    padding: 5,
+    borderBottomWidth: 2,
+    borderBottomColor: "rgba(0,0,0,0.1)",
+    width: "92%",
   },
   text: {
     color: "white",
