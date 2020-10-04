@@ -9,9 +9,8 @@ import {
 import { Agencies } from "../Data";
 
 const SearchResults = (props) => {
-  const formatPhoneNum = (number) => {
-    let match = number.match(/^(\d{3})(\d{3})(\d{4})$/);
-    return `(${match[1]}) ${match[2]}-${match[3]}`;
+  const formatPhoneNum = (n) => {
+    return `(${n[0]}${n[1]}${n[2]}) ${n[3]}${n[4]}${n[5]}-${n[6]}${n[7]}${n[8]}${n[9]}`;
   };
 
   const agencyList = Agencies.map((v) => (
@@ -19,19 +18,19 @@ const SearchResults = (props) => {
       <Text style={styles.text}>{v.agency}</Text>
       <TouchableOpacity
         style={styles.button}
-        /* onPress={() => openPhone(v.phone)} */
+        onPress={() => openPhone(v.phone)}
       >
         <Text style={styles.buttonText}>
-          Call Now: {/* {formatPhoneNum(v.phone)} */}
+          Call Now: {formatPhoneNum(v.phone)}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        /* onPress={() => openMaps(v.street, v.city, v.state, v.zip)} */
+        onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
         style={styles.text}
       >
-        {/*<Text style={styles.text}>
+        <Text style={styles.text}>
           {v.street}, {v.city}, {v.state}, {v.zip}
-  </Text>*/}
+        </Text>
       </TouchableOpacity>
     </View>
   )).filter((v) =>
@@ -43,7 +42,7 @@ const SearchResults = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "90%",
+    width: "95%",
     marginBottom: 25,
     marginLeft: "auto",
     marginRight: "auto",

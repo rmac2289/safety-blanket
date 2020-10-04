@@ -23,7 +23,7 @@ const Search = (props) => {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.search}>Search for a munipality by name</Text>
+        <Text style={styles.search}>Search for a municipality by name</Text>
         <TextInput
           style={styles.textInput}
           onChangeText={(text) => setSearchText(text)}
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   search: {
     marginLeft: "auto",
     marginRight: "auto",
-    width: "85%",
+    width: "100%",
     textAlign: "center",
     fontSize: 20,
     marginBottom: 10,
@@ -79,12 +79,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   text: {
-    color: "#51A0D5",
+    color: "white",
     fontSize: 20,
     textAlign: "center",
   },
   listBox: {
-    width: "95%",
+    width: "100%",
     marginLeft: "auto",
     marginRight: "auto",
   },

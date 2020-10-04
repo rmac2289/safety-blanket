@@ -11,13 +11,14 @@ import {
 import * as Linking from "expo-linking";
 
 const ClosestDepts = (props) => {
-  const formatPhoneNum = (number) => {
-    let match = number.match(/^(\d{3})(\d{3})(\d{4})$/);
-    return `(${match[1]}) ${match[2]}-${match[3]}`;
+  const formatPhoneNum = (n) => {
+    return `(${n[0]}${n[1]}${n[2]}) ${n[3]}${n[4]}${n[5]}-${n[6]}${n[7]}${n[8]}${n[9]}`;
   };
 
   const agencyList = Agencies.filter(
-    (v) => v.city.includes(props.city) || v.agency.includes(props.county)
+    (v) =>
+      v.city.includes(props.city) ||
+      (v.agency.includes(props.county) && !v.agency.includes("("))
   );
   const openPhone = (num) => {
     const url = `tel:${num}`;
@@ -50,7 +51,34 @@ const ClosestDepts = (props) => {
     </View>
   ));
 
-  return <ScrollView>{agencyDisplay}</ScrollView>;
+  return (
+    <ScrollView>
+      {agencyDisplay}
+
+      <View style={styles.container}>
+        <Text style={{ fontSize: 22, fontWeight: "700" }}>
+          On a state highway?
+        </Text>
+        <Text style={styles.text}>Oregon State Police</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => openPhone("*677")}
+        >
+          <Text style={styles.buttonText}>Call Now: *677</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            openMaps("3565 Trelstad Avenue SE", "Salem", "OR", "97317")
+          }
+          style={styles.text}
+        >
+          <Text style={styles.text}>
+            3565 Trelstad Avenue SE, Salem, OR, 97317
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -71,6 +99,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#51A0D5",
     borderRadius: 5,
     padding: 10,
+    marginBottom: 2.5,
+    marginTop: 2.5,
   },
 });
 
