@@ -18,6 +18,10 @@ const SearchResults = (props) => {
     let url = `https://www.google.com/maps/search/?api=1&query=${street}%2C${city}%2C${state}%2C${zip}`;
     Linking.openURL(url);
   };
+  const openPhone = (num) => {
+    const url = `tel:${num}`;
+    return Linking.openURL(url);
+  };
   const agencyList = Agencies.filter((v) =>
     v.agency.toLowerCase().includes(props.searchText.toLowerCase())
   ).map((v) => (
@@ -67,6 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     marginBottom: 5,
+    color: "white",
   },
   buttonText: {
     fontSize: 20,

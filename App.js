@@ -11,7 +11,9 @@ import * as Location from "expo-location";
 import * as Linking from "expo-linking";
 import ClosestDepts from "./Components/ClosestDepts";
 import Search from "./Components/Search";
-import { Divider } from "react-native-elements";
+import { Divider, Button } from "react-native-elements";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faLevelDownAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function App() {
   const [location, setLocation] = useState(null);
@@ -28,7 +30,7 @@ export default function App() {
     (async () => {
       let { status } = await Location.requestPermissionsAsync();
       if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
+        setErrorMsg("Location Permission Denied");
       }
 
       let location = await Location.getCurrentPositionAsync({});
@@ -55,14 +57,14 @@ export default function App() {
       </View>
       <View style={styles.textView}>
         {location ? (
-          <Text style={styles.text}>{city} Public Safety Agencies</Text>
+          <Text style={styles.text}>public safety agencies near you</Text>
         ) : (
           <Text style={styles.text}>{errorMsg}...</Text>
         )}
       </View>
       <Divider
         style={{
-          backgroundColor: "rgba(0,0,0,0.2)",
+          backgroundColor: "rgba(255,255,255,0.4)",
           height: 5,
           marginBottom: 10,
         }}
@@ -79,15 +81,15 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: Dimensions.get("window").height,
-    backgroundColor: "rgba(0,0,0,0.1)",
+    backgroundColor: "rgb(0,0,0)",
   },
   nine11: {
     backgroundColor: "black",
     display: "flex",
     flexDirection: "row",
-    marginBottom: 15,
+    marginBottom: 10,
     padding: 10,
-    paddingTop: 50,
+    paddingTop: 60,
     justifyContent: "center",
   },
   nine11Text: {
@@ -120,18 +122,27 @@ const styles = StyleSheet.create({
   textView: {
     width: "95%",
     marginLeft: "auto",
-    marginRight: "auto",
-    marginBottom: 15,
-    height: 50,
-    backgroundColor: "black",
-    borderRadius: 5,
-    alignItems: "center",
+    marginRight: 0,
+    backgroundColor: "rgba(255,255,255,0.4)",
+    height: 75,
+    borderWidth: 5,
+    borderColor: "black",
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderRightWidth: 0,
     justifyContent: "center",
+    marginBottom: 15,
+    marginTop: 10,
+    alignItems: "center",
   },
   text: {
     color: "white",
     fontSize: 24,
-    textAlign: "center",
+    textAlign: "left",
+    fontWeight: "700",
     padding: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
+    justifyContent: "center",
   },
 });

@@ -54,7 +54,7 @@ const ClosestDepts = (props) => {
       </View>
       <Divider
         style={{
-          backgroundColor: "rgba(0,0,0,0.2)",
+          backgroundColor: "rgba(255,255,255,0.4)",
           height: 5,
           marginBottom: 10,
         }}
@@ -71,7 +71,7 @@ const ClosestDepts = (props) => {
           style={{
             fontSize: 22,
             fontWeight: "700",
-            color: "blue",
+            color: "skyblue",
             marginBottom: 5,
           }}
         >
@@ -96,7 +96,9 @@ const ClosestDepts = (props) => {
           <Text style={styles.buttonText}>Open in Google Maps</Text>
         </Button>
       </View>
-      <Divider style={{ backgroundColor: "rgba(0,0,0,0.2)", height: 5 }} />
+      <Divider
+        style={{ backgroundColor: "rgba(255,255,255,0.4)", height: 5 }}
+      />
     </ScrollView>
   );
 };
@@ -121,6 +123,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     marginBottom: 5,
+    color: "white",
   },
   buttonText: {
     fontSize: 20,
