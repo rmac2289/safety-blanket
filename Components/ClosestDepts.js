@@ -1,13 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Agencies } from "../Data";
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  Pressable,
-} from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import * as Linking from "expo-linking";
 import { Button } from "native-base";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -54,7 +47,7 @@ const ClosestDepts = (props) => {
       </View>
       <Divider
         style={{
-          backgroundColor: "rgba(255,255,255,0.4)",
+          backgroundColor: "rgba(255,255,255,0.2)",
           height: 5,
           marginBottom: 10,
         }}
@@ -69,10 +62,11 @@ const ClosestDepts = (props) => {
       <View style={styles.container}>
         <Text
           style={{
-            fontSize: 22,
+            fontSize: 24,
             fontWeight: "700",
-            color: "skyblue",
+            color: "rgb(30,110,300)",
             marginBottom: 5,
+            textAlign: "center",
           }}
         >
           On a state highway?
@@ -97,7 +91,7 @@ const ClosestDepts = (props) => {
         </Button>
       </View>
       <Divider
-        style={{ backgroundColor: "rgba(255,255,255,0.4)", height: 5 }}
+        style={{ backgroundColor: "rgba(255,255,255,0.2)", height: 5 }}
       />
     </ScrollView>
   );

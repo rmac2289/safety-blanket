@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   ScrollView,
-  TouchableOpacity,
+  KeyboardAvoidingView,
   StyleSheet,
   TextInput,
+  Dimensions,
 } from "react-native";
 import SearchResults from "../Components/SearchResults";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -15,7 +15,7 @@ const Search = (props) => {
   const [searchText, setSearchText] = useState("");
 
   return (
-    <>
+    <KeyboardAvoidingView behavior="padding" style={styles.background}>
       <View style={styles.container}>
         <View style={styles.searchContainer}>
           <FontAwesomeIcon style={styles.icon} icon={faSearch} />
@@ -28,17 +28,22 @@ const Search = (props) => {
           />
         </View>
       </View>
-      {searchText !== "" && (
-        <ScrollView style={styles.listBox}>
-          <SearchResults searchText={searchText} />
-        </ScrollView>
-      )}
-    </>
+      <ScrollView style={styles.listBox}>
+        <SearchResults searchText={searchText} />
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: "black",
+    paddingTop: 30,
+  },
+  background: {
+    backgroundColor: "black",
+    height: Dimensions.get("window").height,
+  },
   searchContainer: {
     display: "flex",
     flexDirection: "row",
@@ -46,13 +51,13 @@ const styles = StyleSheet.create({
     width: "85%",
     borderWidth: 2,
     borderColor: "rgb(0,0,0)",
-    marginLeft: 0,
-    marginRight: "auto",
+    marginLeft: "auto",
+    marginRight: 0,
     padding: 10,
     borderRadius: 20,
-    borderLeftWidth: 0,
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
+    borderRightWidth: 0,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
     backgroundColor: "rgba(255,255,255,0.4)",
     marginBottom: 25,
   },

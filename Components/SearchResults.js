@@ -22,9 +22,22 @@ const SearchResults = (props) => {
     const url = `tel:${num}`;
     return Linking.openURL(url);
   };
-  const agencyList = Agencies.filter((v) =>
+  function compare(a, b) {
+    const nameA = a.agency.toUpperCase();
+    const nameB = b.agency.toUpperCase();
+  
+    let comparison = 0;
+    if (nameA > nameB) {
+      comparison = 1;
+    } else if (nameA < nameB) {
+      comparison = -1;
+    }
+    return comparison;
+  };
+
+  const agencyList = Agencies.sort(compare).filter((v) =>
     v.agency.toLowerCase().includes(props.searchText.toLowerCase())
-  ).map((v) => (
+  ).sort((a,b) => a-b).map((v) => (
     <View style={styles.container} key={v.agency}>
       <Text style={styles.text}>{v.agency}</Text>
       {/*<Text style={styles.text}>
@@ -45,21 +58,22 @@ const SearchResults = (props) => {
         <Text style={styles.buttonText}>Open in Google Maps</Text>
       </Button>
     </View>
-  ));
+  ))
 
   return <ScrollView style={styles.scrollContainer}>{agencyList}</ScrollView>;
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: "95%",
-    marginBottom: 20,
+    width: "100%",
     marginLeft: "auto",
     marginRight: "auto",
-    paddingBottom: 10,
+    paddingBottom: 30,
+    paddingLeft: 20,
+    backgroundColor: "black"
   },
   scrollContainer: {
-    width: "95%",
+    width: "100%",
     marginLeft: "auto",
     marginRight: "auto",
   },
