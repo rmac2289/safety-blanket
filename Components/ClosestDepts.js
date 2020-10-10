@@ -64,9 +64,9 @@ const ClosestDepts = (props) => {
           style={{
             fontSize: 24,
             fontWeight: "700",
-            color: "rgb(30,110,300)",
+            color: "rgb(18,115,221)",
             marginBottom: 5,
-            textAlign: "center",
+            textAlign: "left",
           }}
         >
           On a state highway?

@@ -6,13 +6,16 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
+  StatusBar
 } from "react-native";
+import SafeAreaView from 'react-native-safe-area-view';
 import * as Location from "expo-location";
 import * as Linking from "expo-linking";
 import ClosestDepts from "./ClosestDepts";
 import { Divider } from "react-native-elements";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
+
 export default function Main({ navigation }) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -43,9 +46,11 @@ export default function Main({ navigation }) {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={{backgroundColor: 'black' }}>
+      <StatusBar barStyle="light-content" backgroundColor="black" />
+    <ScrollView>
       <View style={styles.nine11}>
-        <Text style={styles.nine11Text}>Emergency? Dial</Text>
+        <Text style={styles.nine11Text}>Emergency? Call</Text>
         <TouchableOpacity
           onPress={() => openPhone("911")}
           style={styles.call911}
@@ -70,17 +75,21 @@ export default function Main({ navigation }) {
       <View>
         {city != null && <ClosestDepts city={city} county={county} />}
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Search")}>
-          <Text style={styles.text}>See All Departments</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Search")}
+      >
+        <Text style={styles.text}>See All Departments</Text>
 
-          <FontAwesomeIcon
-            style={{ marginLeft: 15 }}
-            color="white"
-            size={32}
-            icon={faArrowAltCircleRight}
-          />
+        <FontAwesomeIcon
+          style={{ marginLeft: 15 }}
+          color="white"
+          size={32}
+          icon={faArrowAltCircleRight}
+        />
       </TouchableOpacity>
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -103,6 +112,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 24,
     textAlign: "center",
+    fontWeight: "600",
     padding: 5,
   },
   call911: {

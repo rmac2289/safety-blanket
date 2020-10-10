@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -6,31 +6,49 @@ import {
   StyleSheet,
   TextInput,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import SearchResults from "../Components/SearchResults";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-const Search = (props) => {
+const Search = ({ navigation }) => {
   const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setLoading(true);
+    return setLoading(false);
+  }, []);
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.background}>
-      <View style={styles.container}>
-        <View style={styles.searchContainer}>
-          <FontAwesomeIcon style={styles.icon} icon={faSearch} />
-          <TextInput
-            placeholder="search by department name"
-            placeholderTextColor="rgba(255,255,255,0.7)"
-            style={styles.textInput}
-            onChangeText={(text) => setSearchText(text)}
-            vale={searchText}
-          />
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={loading ? styles.backgroundLoading : styles.background}
+    >
+      
+      {loading ? (
+        <View style={styles.loading}>
+          <ActivityIndicator size="large" color="white" />
         </View>
-      </View>
-      <ScrollView style={styles.listBox}>
-        <SearchResults searchText={searchText} />
-      </ScrollView>
+      ) : (
+        <>
+          <View style={styles.container}>
+            <View style={styles.searchContainer}>
+              <FontAwesomeIcon style={styles.icon} icon={faSearch} />
+              <TextInput
+                placeholder="search by department name"
+                placeholderTextColor="rgba(255,255,255,0.7)"
+                style={styles.textInput}
+                onChangeText={(text) => setSearchText(text)}
+                vale={searchText}
+              />
+            </View>
+          </View>
+          <ScrollView style={styles.listBox}>
+            <SearchResults searchText={searchText} />
+          </ScrollView>
+        </>
+      )}
     </KeyboardAvoidingView>
   );
 };
@@ -38,9 +56,21 @@ const Search = (props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "black",
-    paddingTop: 30,
+    position: "relative"
+  },
+  loading: {
+    backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
   },
   background: {
+    paddingTop: 30,
+    backgroundColor: "black",
+    height: Dimensions.get("window").height,
+  },
+  backgroundLoading: {
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "black",
     height: Dimensions.get("window").height,
   },
