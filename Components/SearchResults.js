@@ -209,9 +209,9 @@ const SearchResults = (props) => {
             />
           ));
       return (
-        <>
+        <React.Fragment key={v.agency}>
           {divider}
-          <View style={styles.container} key={v.agency}>
+          <View style={styles.container}>
             <Text style={styles.text}>{v.agency}</Text>
             {/*<Text style={styles.text}>
         {v.street}, {v.city}, {v.state}, {v.zip}
@@ -231,7 +231,7 @@ const SearchResults = (props) => {
               <Text style={styles.buttonText}>Open in Google Maps</Text>
             </Button>
           </View>
-        </>
+        </React.Fragment>
       );
     });
 
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   dividerView: {
-    backgroundColor: "rgba(255,255,255,0.3)",
+    backgroundColor: "slategrey",
     height: 40,
     marginBottom: 20,
     justifyContent: "center",
