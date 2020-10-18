@@ -23,10 +23,9 @@ const SearchResults = (props) => {
     const url = `tel:${num}`;
     return Linking.openURL(url);
   };
-  function compare(a, b) {
+  function aToZ(a, b) {
     const nameA = a.agency.toUpperCase();
     const nameB = b.agency.toUpperCase();
-
     let comparison = 0;
     if (nameA > nameB) {
       comparison = 1;
@@ -36,7 +35,7 @@ const SearchResults = (props) => {
     return comparison;
   }
 
-  const agencyList = Agencies.sort(compare)
+  const agencyList = Agencies.sort(aToZ)
     .filter((v) =>
       v.agency.toLowerCase().includes(props.searchText.toLowerCase())
     )
@@ -248,7 +247,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   dividerView: {
-    backgroundColor: "slategrey",
+    backgroundColor: "grey",
     height: 40,
     marginBottom: 20,
     justifyContent: "center",
