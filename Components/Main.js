@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: Dimensions.get("window").height,
-    backgroundColor: "rgb(0,0,0)",
+    backgroundColor: "black",
   },
   nine11: {
     backgroundColor: "black",
