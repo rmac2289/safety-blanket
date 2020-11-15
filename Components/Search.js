@@ -7,6 +7,7 @@ import {
   TextInput,
   Dimensions,
   ActivityIndicator,
+  Animated
 } from "react-native";
 import SearchResults from "../Components/SearchResults";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -37,7 +38,7 @@ const Search = ({ navigation }) => {
               <FontAwesomeIcon style={styles.icon} icon={faSearch} />
               <TextInput
                 placeholder="search by department name"
-                placeholderTextColor="rgba(255,255,255,0.7)"
+                placeholderTextColor="rgba(255,255,255,0.65)"
                 style={styles.textInput}
                 onChangeText={(text) => setSearchText(text)}
                 vale={searchText}
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     borderRadius: 5,
     color: "white",
-    fontSize: 22,
+    fontSize: 18,
     padding: 5,
     borderBottomWidth: 2,
     borderBottomColor: "rgba(255,255,255,0.3)",

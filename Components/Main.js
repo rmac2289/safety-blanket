@@ -6,7 +6,8 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Pressable
 } from "react-native";
 import SafeAreaView from 'react-native-safe-area-view';
 import * as Location from "expo-location";
@@ -21,7 +22,7 @@ export default function Main({ navigation }) {
   const [errorMsg, setErrorMsg] = useState(null);
   const [city, setCity] = useState(null);
   const [county, setCounty] = useState(null);
-
+  const [buttonColor, setButtonColor] = useState(false)
   const openPhone = (num) => {
     const url = `tel:${num}`;
     return Linking.openURL(url);
@@ -44,7 +45,7 @@ export default function Main({ navigation }) {
       setCounty(reverseGeo[0].subregion);
     })();
   }, []);
-
+ const buttonPress = () => navigation.navigate("Search");
   return (
     <SafeAreaView style={{backgroundColor: 'black' }}>
       <StatusBar barStyle="light-content" backgroundColor="black" />
@@ -75,9 +76,11 @@ export default function Main({ navigation }) {
       <View>
         {city != null && <ClosestDepts city={city} county={county} />}
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Search")}
+      <Pressable
+        style={buttonColor ? styles.buttonPressed:styles.button}
+        onPress={buttonPress}
+        onPressIn={() => setButtonColor(true)}
+        onPressOut={() => setButtonColor(false)}
       >
         <Text style={styles.text}>See All Departments</Text>
 
@@ -87,7 +90,7 @@ export default function Main({ navigation }) {
           size={32}
           icon={faArrowAltCircleRight}
         />
-      </TouchableOpacity>
+      </Pressable>
     </ScrollView>
     </SafeAreaView>
   );
@@ -171,6 +174,24 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "rgb(0,0,0)",
     backgroundColor: "rgba(255,255,255,0.4)",
+    marginLeft: 0,
+    marginRight: "auto",
+    padding: 10,
+    marginBottom: 25,
+    borderRadius: 20,
+    borderLeftWidth: 0,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+  },
+  buttonPressed: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "85%",
+    borderWidth: 2,
+    borderColor: "rgb(0,0,0)",
+    backgroundColor: "rgba(255,255,255,0.7)",
     marginLeft: 0,
     marginRight: "auto",
     padding: 10,
