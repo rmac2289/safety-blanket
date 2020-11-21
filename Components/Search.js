@@ -7,9 +7,7 @@ import {
   TextInput,
   Dimensions,
   ActivityIndicator,
-  Animated
 } from "react-native";
-import ProgressBar from 'react-native-progress/Bar';
 import SearchResults from "../Components/SearchResults";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
