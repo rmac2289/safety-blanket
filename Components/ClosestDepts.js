@@ -6,8 +6,11 @@ import { Button } from "native-base";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { Divider } from "react-native-elements";
+import { gql, useQuery } from '@apollo/client';
+
 
 const ClosestDepts = (props) => {
+  
   const formatPhoneNum = (n) => {
     return `(${n[0]}${n[1]}${n[2]}) ${n[3]}${n[4]}${n[5]}-${n[6]}${n[7]}${n[8]}${n[9]}`;
   };

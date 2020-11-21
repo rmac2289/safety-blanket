@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@apollo/client": "^3.2.7",
     "@expo-google-fonts/raleway": "^0.1.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.31",
     "@fortawesome/free-solid-svg-icons": "^5.15.0",
@@ -20,6 +21,7 @@
     "expo-linear-gradient": "~8.3.0",
     "expo-location": "~9.0.0",
     "expo-status-bar": "~1.0.2",
+    "graphql": "^15.4.0",
     "native-base": "^2.13.14",
     "prettier": "^2.1.2",
     "react": "16.13.1",
