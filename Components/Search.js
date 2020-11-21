@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Animated
 } from "react-native";
+import ProgressBar from 'react-native-progress/Bar';
 import SearchResults from "../Components/SearchResults";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -28,8 +29,8 @@ const Search = ({ navigation }) => {
     >
       
       {loading ? (
-        <View style={styles.loading}>
-          <ActivityIndicator size="large" color="white" />
+        <View style={styles.loading} >
+          <ActivityIndicator color="white" size="large" style={styles.spinner}/>
         </View>
       ) : (
         <>
@@ -59,10 +60,15 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     position: "relative"
   },
+  spinner: {
+    position: "absolute",
+    bottom: 75
+  },
   loading: {
     backgroundColor: "black",
     justifyContent: "center",
     alignItems: "center",
+    position: "relative"
   },
   background: {
     paddingTop: 30,

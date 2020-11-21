@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={{backgroundColor: "black"}}>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Main" component={Main} 

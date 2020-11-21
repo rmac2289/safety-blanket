@@ -212,9 +212,6 @@ const SearchResults = (props) => {
           {divider}
           <View style={styles.container}>
             <Text style={styles.text}>{v.agency}</Text>
-            {/*<Text style={styles.text}>
-        {v.street}, {v.city}, {v.state}, {v.zip}
-  </Text>*/}
             <Button style={styles.button} onPress={() => openPhone(v.phone)}>
               <FontAwesomeIcon style={styles.icon} icon={faPhone} />
 

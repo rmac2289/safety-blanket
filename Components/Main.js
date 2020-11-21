@@ -47,7 +47,7 @@ export default function Main({ navigation }) {
   }, []);
  const buttonPress = () => navigation.navigate("Search");
   return (
-    <SafeAreaView style={{backgroundColor: 'black' }}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="black" />
     <ScrollView>
       <View style={styles.nine11}>
@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
+    
   },
   buttonPressed: {
     display: "flex",
