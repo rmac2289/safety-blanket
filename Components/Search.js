@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   ScrollView,
@@ -11,24 +11,24 @@ import {
 import SearchResults from "../Components/SearchResults";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { GET_AGENCIES } from "./ClosestDepts";
+import { useQuery } from "@apollo/client";
 
-const Search = ({ navigation }) => {
+const Search = () => {
   const [searchText, setSearchText] = useState("");
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(true);
-    return setLoading(false);
-  }, []);
-
+  const { loading, data } = useQuery(GET_AGENCIES);
   return (
     <KeyboardAvoidingView
       behavior="padding"
       style={loading ? styles.backgroundLoading : styles.background}
     >
-      
       {loading ? (
-        <View style={styles.loading} >
-          <ActivityIndicator color="white" size="large" style={styles.spinner}/>
+        <View style={styles.loading}>
+          <ActivityIndicator
+            color="white"
+            size="large"
+            style={styles.spinner}
+          />
         </View>
       ) : (
         <>
@@ -36,7 +36,7 @@ const Search = ({ navigation }) => {
             <View style={styles.searchContainer}>
               <FontAwesomeIcon style={styles.icon} icon={faSearch} />
               <TextInput
-                placeholder="search by department name"
+                placeholder="Search"
                 placeholderTextColor="rgba(255,255,255,0.65)"
                 style={styles.textInput}
                 onChangeText={(text) => setSearchText(text)}
@@ -44,8 +44,9 @@ const Search = ({ navigation }) => {
               />
             </View>
           </View>
+
           <ScrollView style={styles.listBox}>
-            <SearchResults searchText={searchText} />
+            <SearchResults data={data.agencies} searchText={searchText} />
           </ScrollView>
         </>
       )}
@@ -56,20 +57,22 @@ const Search = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "black",
-    position: "relative"
+    position: "relative",
+    borderBottomWidth: 1,
+    marginBottom: 10,
   },
   spinner: {
     position: "absolute",
-    bottom: 75
+    bottom: 75,
   },
   loading: {
     backgroundColor: "black",
     justifyContent: "center",
     alignItems: "center",
-    position: "relative"
+    position: "relative",
   },
   background: {
-    paddingTop: 30,
+    paddingTop: 15,
     backgroundColor: "black",
     height: Dimensions.get("window").height,
   },
@@ -83,18 +86,14 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    width: "85%",
-    borderWidth: 2,
-    borderColor: "rgb(0,0,0)",
     marginLeft: "auto",
-    marginRight: 0,
+    width: "90%",
+    marginRight: "auto",
     padding: 10,
     borderRadius: 20,
     borderRightWidth: 0,
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
-    backgroundColor: "rgba(255,255,255,0.4)",
-    marginBottom: 25,
   },
   icon: {
     color: "rgb(255,255,255)",
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 5,
     borderBottomWidth: 2,
-    borderBottomColor: "rgba(255,255,255,0.3)",
+    borderBottomColor: "rgba(255,255,255,0.5)",
     width: "92%",
   },
   text: {
