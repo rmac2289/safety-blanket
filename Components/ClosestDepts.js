@@ -1,36 +1,17 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { openPhone, openMaps } from "../services";
 import { Divider } from "react-native-elements";
-import { gql, useQuery } from "@apollo/client";
 import { Pressable } from "react-native";
-
-export const GET_AGENCIES = gql`
-  query getAgencies {
-    agencies {
-      agency
-      phone
-      street
-      city
-      state
-      zip
-    }
-  }
-`;
+import { DataContext } from "../context";
 
 const ClosestDepts = (props) => {
-  const { loading, error, data } = useQuery(GET_AGENCIES);
+  const [data] = useContext(DataContext);
   const formatPhoneNum = (n) => {
     return `(${n[0]}${n[1]}${n[2]}) ${n[3]}${n[4]}${n[5]}-${n[6]}${n[7]}${n[8]}${n[9]}`;
   };
-  if (loading)
-    return (
-      <View>
-        <Text>Loading</Text>
-      </View>
-    );
 
   const agencyList = data.agencies.filter((v) => {
     return (
@@ -38,6 +19,7 @@ const ClosestDepts = (props) => {
       (v.agency.includes(props.county) && !v.agency.includes("("))
     );
   });
+
   const agencyDisplay = agencyList.map((v) => (
     <React.Fragment key={v.agency}>
       <View style={styles.container}>
@@ -64,17 +46,7 @@ const ClosestDepts = (props) => {
     <ScrollView style={styles.scrollView}>
       {agencyDisplay}
       <View style={styles.container}>
-        <Text
-          style={{
-            fontSize: 24,
-            fontWeight: "700",
-            color: "rgb(18,115,221)",
-            marginBottom: 5,
-            textAlign: "left",
-          }}
-        >
-          On a state highway?
-        </Text>
+        <Text style={styles.hwyText}>On a state highway?</Text>
         <Text style={styles.text}>Oregon State Police</Text>
         <View style={styles.buttonBox}>
           <Pressable style={styles.button} onPress={() => openPhone("*677")}>
@@ -118,6 +90,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 32,
     padding: 5,
+  },
+  hwyText: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "rgb(18,115,221)",
+    marginBottom: 5,
+    textAlign: "left",
   },
   divider: {
     backgroundColor: "rgba(255,255,255,0.2)",

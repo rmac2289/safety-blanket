@@ -1,22 +1,17 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Main from "./Components/Main";
 import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
 import Search from "./Components/Search";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
-
+import { DataContextProvider } from "./context";
 const Stack = createStackNavigator();
-
-const client = new ApolloClient({
-  uri: "https://agile-badlands-28744.herokuapp.com/",
-  cache: new InMemoryCache(),
-});
+import { DataContext } from "./context";
 
 const App = () => {
   return (
-    <ApolloProvider client={client}>
+    <DataContextProvider>
       <SafeAreaProvider style={{ backgroundColor: "black" }}>
         <NavigationContainer>
           <Stack.Navigator>
@@ -45,7 +40,7 @@ const App = () => {
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
-    </ApolloProvider>
+    </DataContextProvider>
   );
 };
 

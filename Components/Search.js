@@ -6,50 +6,30 @@ import {
   StyleSheet,
   TextInput,
   Dimensions,
-  ActivityIndicator,
 } from "react-native";
 import SearchResults from "../Components/SearchResults";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { GET_AGENCIES } from "./ClosestDepts";
-import { useQuery } from "@apollo/client";
 
 const Search = () => {
   const [searchText, setSearchText] = useState("");
-  const { loading, data } = useQuery(GET_AGENCIES);
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      style={loading ? styles.backgroundLoading : styles.background}
-    >
-      {loading ? (
-        <View style={styles.loading}>
-          <ActivityIndicator
-            color="white"
-            size="large"
-            style={styles.spinner}
+    <KeyboardAvoidingView behavior="padding" style={styles.background}>
+      <View style={styles.container}>
+        <View style={styles.searchContainer}>
+          <FontAwesomeIcon style={styles.icon} icon={faSearch} />
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor="rgba(255,255,255,0.65)"
+            style={styles.textInput}
+            onChangeText={(text) => setSearchText(text)}
+            vale={searchText}
           />
         </View>
-      ) : (
-        <>
-          <View style={styles.container}>
-            <View style={styles.searchContainer}>
-              <FontAwesomeIcon style={styles.icon} icon={faSearch} />
-              <TextInput
-                placeholder="Search"
-                placeholderTextColor="rgba(255,255,255,0.65)"
-                style={styles.textInput}
-                onChangeText={(text) => setSearchText(text)}
-                vale={searchText}
-              />
-            </View>
-          </View>
-
-          <ScrollView style={styles.listBox}>
-            <SearchResults data={data.agencies} searchText={searchText} />
-          </ScrollView>
-        </>
-      )}
+      </View>
+      <ScrollView style={styles.listBox}>
+        <SearchResults searchText={searchText} />
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
@@ -119,6 +99,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginLeft: "auto",
     marginRight: "auto",
+    marginBottom: 75,
   },
 });
 

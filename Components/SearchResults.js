@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { Pressable } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { alphaSort, openPhone, openMaps, formatPhoneNum } from "../services";
 import { Divider } from "react-native-elements";
+import { DataContext } from "../context";
 
 const SearchResults = (props) => {
-  const agencyData = props.data;
+  const [data] = useContext(DataContext);
+  const agencyData = data.agencies;
+
   const agencyList = agencyData
-    .slice()
     .sort(alphaSort)
     .filter((v) =>
       v.agency.toLowerCase().includes(props.searchText.toLowerCase())

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -16,13 +16,41 @@ import { Divider } from "react-native-elements";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
 import { openPhone } from "../services";
+import { DataContext } from "../context";
 
 export default function Main({ navigation }) {
+  const [data, setData] = useContext(DataContext);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [city, setCity] = useState(null);
   const [county, setCounty] = useState(null);
   const [buttonColor, setButtonColor] = useState(false);
+
+  useEffect(() => {
+    const fetchData = () =>
+      fetch("https://agile-badlands-28744.herokuapp.com/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `
+            query {
+              agencies {
+              agency
+              phone
+              street  
+              city
+              state
+              zip
+            }
+          }`,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => setData(res.data))
+        .catch((err) => console.log(err));
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -41,7 +69,9 @@ export default function Main({ navigation }) {
       setCounty(reverseGeo[0].subregion);
     })();
   }, []);
+
   const buttonPress = () => navigation.navigate("Search");
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="black" />
@@ -101,6 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
     padding: 10,
     paddingTop: 40,
