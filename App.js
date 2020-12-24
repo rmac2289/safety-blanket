@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Main from "./Components/Main";
 import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
@@ -6,8 +6,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Search from "./Components/Search";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { DataContextProvider } from "./context";
+
 const Stack = createStackNavigator();
-import { DataContext } from "./context";
 
 const App = () => {
   return (
