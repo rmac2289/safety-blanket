@@ -7,18 +7,21 @@ import {
   Dimensions,
   TouchableOpacity,
   StatusBar,
-  Pressable,
+  Image,
 } from "react-native";
+import oregon from "../assets/gettyimages-927443876-170667a.jpg";
 import SafeAreaView from "react-native-safe-area-view";
 import * as Location from "expo-location";
 import ClosestDepts from "./ClosestDepts";
 import { Divider } from "react-native-elements";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
+import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
 import { openPhone } from "../services";
-import { DataContext } from "../context";
+import { DataContext, LoadingContext } from "../context";
+import Loading from "./Loading";
 
 export default function Main({ navigation }) {
+  const [loading, setLoading] = useContext(LoadingContext);
   const [data, setData] = useContext(DataContext);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -70,8 +73,13 @@ export default function Main({ navigation }) {
     })();
   }, []);
 
-  const buttonPress = () => navigation.navigate("Search");
-
+  const buttonPress = () => {
+    navigation.navigate("Search");
+    setLoading(true);
+  };
+  if (!county) {
+    return <Loading message="Finding closest agencies" />;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="black" />
@@ -79,6 +87,7 @@ export default function Main({ navigation }) {
         <View style={styles.nine11}>
           <Text style={styles.nine11Text}>Emergency? Call</Text>
           <TouchableOpacity
+            activeOpacity={0.5}
             onPress={() => openPhone("911")}
             style={styles.call911}
           >
@@ -94,10 +103,11 @@ export default function Main({ navigation }) {
         </View>
         <Divider style={styles.divider} />
         <View>
-          {city != null && <ClosestDepts city={city} county={county} />}
+          {city && <ClosestDepts data={data} city={city} county={county} />}
         </View>
-        <Pressable
-          style={buttonColor ? styles.buttonPressed : styles.button}
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={styles.button}
           onPress={buttonPress}
           onPressIn={() => setButtonColor(true)}
           onPressOut={() => setButtonColor(false)}
@@ -105,12 +115,22 @@ export default function Main({ navigation }) {
           <Text style={styles.text}>All Departments</Text>
 
           <FontAwesomeIcon
-            style={{ marginLeft: 15 }}
-            color="white"
-            size={32}
-            icon={faArrowAltCircleRight}
+            style={{ marginLeft: 50 }}
+            color="rgba(255,255,255,0.9)"
+            size={38}
+            icon={faLongArrowAltRight}
           />
-        </Pressable>
+        </TouchableOpacity>
+        <View style={styles.faq}>
+          <Image source={oregon} style={styles.image} />
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => navigation.navigate("Faq")}
+            style={styles.faqButton}
+          >
+            <Text style={styles.nine11Text}>911 FAQ</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -121,6 +141,49 @@ const styles = StyleSheet.create({
     width: "100%",
     height: Dimensions.get("window").height,
     backgroundColor: "black",
+  },
+  faq: {
+    marginTop: 20,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderRadius: 20,
+    width: "65%",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  spinner: {
+    position: "absolute",
+    bottom: 75,
+  },
+  loading: {
+    backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+  },
+  backgroundLoading: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "black",
+    height: Dimensions.get("window").height,
+  },
+  faqButton: {
+    backgroundColor: "rgba(40,75,200,0.2)",
+    borderWidth: 2,
+    borderColor: "rgba(40,75,200,0.8)",
+    borderRadius: 10,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+    width: "55%",
+  },
+  image: {
+    height: 50,
+    width: 75,
+    opacity: 0.9,
   },
   divider: {
     backgroundColor: "rgba(255,255,255,0.2)",
@@ -151,7 +214,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   call911Text: {
-    color: "rgba(255,255,255,0.95)",
+    color: "rgba(255,255,255,0.9)",
     textAlign: "center",
     fontWeight: "700",
     fontSize: 22,
@@ -185,7 +248,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: "left",
     fontWeight: "700",
-    padding: 5,
+    padding: 7,
     justifyContent: "center",
   },
   button: {
@@ -195,25 +258,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     width: "85%",
     borderWidth: 2,
-
-    borderColor: "rgba(255,255,255,0.8)",
-    marginLeft: 0,
-    marginRight: "auto",
-    padding: 3,
-    marginBottom: 25,
-    borderRadius: 10,
-    borderLeftWidth: 0,
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-  },
-  buttonPressed: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-    width: "85%",
-    borderWidth: 2,
-    backgroundColor: "rgba(255,255,255,0.2)",
     borderColor: "rgba(255,255,255,0.8)",
     marginLeft: 0,
     marginRight: "auto",

@@ -11,3 +11,15 @@ export const DataContextProvider = (props) => {
     </DataContext.Provider>
   );
 };
+
+export const LoadingContext = createContext();
+
+export const LoadingContextProvider = (props) => {
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <LoadingContext.Provider value={[loading, setLoading]}>
+      {props.children}
+    </LoadingContext.Provider>
+  );
+};

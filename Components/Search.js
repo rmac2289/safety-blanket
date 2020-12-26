@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -10,9 +10,18 @@ import {
 import SearchResults from "../Components/SearchResults";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { LoadingContext } from "../context";
+import Loading from "./Loading";
 
 const Search = () => {
   const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useContext(LoadingContext);
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+  if (loading) {
+    return <Loading message="Loading" />;
+  }
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.background}>
       <View style={styles.container}>
@@ -41,24 +50,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginBottom: 10,
   },
-  spinner: {
-    position: "absolute",
-    bottom: 75,
-  },
-  loading: {
-    backgroundColor: "black",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "relative",
-  },
   background: {
     paddingTop: 15,
-    backgroundColor: "black",
-    height: Dimensions.get("window").height,
-  },
-  backgroundLoading: {
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "black",
     height: Dimensions.get("window").height,
   },

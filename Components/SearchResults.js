@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
-import { Pressable } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { alphaSort, openPhone, openMaps, formatPhoneNum } from "../services";
@@ -26,21 +26,23 @@ const SearchResults = (props) => {
             </Text>
 
             <View style={styles.buttonBox}>
-              <Pressable
+              <TouchableOpacity
+                activeOpacity={0.5}
                 style={styles.button}
                 onPress={() => openPhone(v.phone)}
               >
                 <FontAwesomeIcon style={styles.icon} icon={faPhone} />
 
                 <Text style={styles.buttonText}>{formatPhoneNum(v.phone)}</Text>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.5}
                 onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
                 style={styles.mapsButton}
               >
                 <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
                 <Text style={styles.buttonText}>Open Google Maps</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
           <Divider />
@@ -53,9 +55,10 @@ const SearchResults = (props) => {
 
 const styles = StyleSheet.create({
   firstLetter: {
-    color: "white",
+    color: "rgba(255,255,255,0.95)",
     fontSize: 28,
     fontWeight: "800",
+    marginBottom: 10,
   },
   container: {
     width: "95%",
@@ -77,20 +80,19 @@ const styles = StyleSheet.create({
     marginRight: "auto",
   },
   icon: {
-    color: "white",
+    color: "rgba(255,255,255,0.9)",
     fontSize: 32,
     padding: 5,
   },
   text: {
     fontSize: 20,
     fontWeight: "600",
-    marginBottom: 10,
     color: "rgba(255,255,255,0.9)",
   },
   buttonText: {
     fontSize: 16,
     padding: 5,
-    color: "rgba(255,255,255,0.95)",
+    color: "rgba(255,255,255,0.9)",
   },
   button: {
     backgroundColor: "rgba(40,75,200,0.2)",
@@ -105,6 +107,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 0,
     borderTopRightRadius: 0,
+    borderRightWidth: 0,
     alignItems: "center",
     justifyContent: "space-evenly",
   },
