@@ -6,12 +6,14 @@ import {
   StyleSheet,
   TextInput,
   Dimensions,
+  Keyboard,
 } from "react-native";
 import SearchResults from "../Components/SearchResults";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { LoadingContext } from "../context";
 import Loading from "./Loading";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const Search = () => {
   const [searchText, setSearchText] = useState("");
@@ -24,21 +26,23 @@ const Search = () => {
   }
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.background}>
-      <View style={styles.container}>
-        <View style={styles.searchContainer}>
-          <FontAwesomeIcon style={styles.icon} icon={faSearch} />
-          <TextInput
-            placeholder="Search"
-            placeholderTextColor="rgba(255,255,255,0.65)"
-            style={styles.textInput}
-            onChangeText={(text) => setSearchText(text)}
-            vale={searchText}
-          />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <View style={styles.searchContainer}>
+            <FontAwesomeIcon style={styles.icon} icon={faSearch} />
+            <TextInput
+              placeholder="Search"
+              placeholderTextColor="rgba(255,255,255,0.65)"
+              style={styles.textInput}
+              onChangeText={(text) => setSearchText(text)}
+              vale={searchText}
+            />
+          </View>
         </View>
-      </View>
-      <ScrollView style={styles.listBox}>
-        <SearchResults searchText={searchText} />
-      </ScrollView>
+        <ScrollView style={styles.listBox}>
+          <SearchResults searchText={searchText} />
+        </ScrollView>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };
