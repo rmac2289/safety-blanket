@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
@@ -10,15 +10,18 @@ const ClosestDepts = (props) => {
   const filterAgencies = (v) => {
     return (
       v.city === props.city ||
-      (v.agency.includes(props.county) && !v.agency.includes("("))
+      (v.agency.includes(props.county) && !v.agency.includes("(")) ||
+      v.agency === "Oregon State Police"
     );
   };
-
   const agencyList = props.data.agencies.filter(filterAgencies);
 
-  const agencyDisplay = agencyList.map((v) => (
+  const displayedAgencies = agencyList.map((v) => (
     <React.Fragment key={v.agency}>
       <View style={styles.container}>
+        {v.agency === "Oregon State Police" && (
+          <Text style={styles.hwyText}>On a state highway?</Text>
+        )}
         <Text style={styles.text}>{v.agency}</Text>
         <View style={styles.buttonBox}>
           <TouchableOpacity
@@ -27,7 +30,11 @@ const ClosestDepts = (props) => {
             onPress={() => openPhone(v.phone)}
           >
             <FontAwesomeIcon style={styles.icon} icon={faPhone} />
-            <Text style={styles.buttonText}>{formatPhoneNum(v.phone)}</Text>
+            <Text style={styles.buttonText}>
+              {v.agency === "Oregon State Police"
+                ? "*677"
+                : formatPhoneNum(v.phone)}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.5}
@@ -43,36 +50,7 @@ const ClosestDepts = (props) => {
     </React.Fragment>
   ));
 
-  return (
-    <ScrollView style={styles.scrollView}>
-      {agencyDisplay}
-      <View style={styles.container}>
-        <Text style={styles.hwyText}>On a state highway?</Text>
-        <Text style={styles.text}>Oregon State Police</Text>
-        <View style={styles.buttonBox}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={styles.button}
-            onPress={() => openPhone("*677")}
-          >
-            <FontAwesomeIcon style={styles.icon} icon={faPhone} />
-            <Text style={styles.buttonText}>*677</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() =>
-              openMaps("3565 Trelstad Avenue SE", "Salem", "OR", "97317")
-            }
-            style={styles.mapsButton}
-          >
-            <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
-            <Text style={styles.buttonText}>Open Google Maps</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <Divider style={styles.divider} />
-    </ScrollView>
-  );
+  return <ScrollView style={styles.scrollView}>{displayedAgencies}</ScrollView>;
 };
 
 const styles = StyleSheet.create({
@@ -88,6 +66,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "100%",
+    shadowColor: "rgb(40,75,220)",
+    shadowOffset: { height: 1, width: -1 },
+    shadowRadius: 0.75,
+    shadowOpacity: 1,
   },
   scrollView: {
     marginBottom: 20,

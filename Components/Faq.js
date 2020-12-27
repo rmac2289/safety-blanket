@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: Dimensions.get("window").height,
-    backgroundColor: "black",
+    backgroundColor: "rgba(0,0,0,0.95)",
     padding: 10,
   },
   qaContainer: {

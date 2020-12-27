@@ -73,6 +73,11 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "100%",
+    shadowColor: "rgb(40,75,220)",
+
+    shadowOffset: { height: 1, width: 1 },
+    shadowRadius: 0.75,
+    shadowOpacity: 1,
   },
   scrollContainer: {
     width: "100%",

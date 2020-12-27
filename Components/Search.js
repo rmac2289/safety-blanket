@@ -18,11 +18,12 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 const Search = () => {
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useContext(LoadingContext);
+
   useEffect(() => {
     setLoading(false);
   }, []);
   if (loading) {
-    return <Loading message="Loading" />;
+    return <Loading initialLoad={false} message="Loading" />;
   }
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.background}>
@@ -49,14 +50,14 @@ const Search = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
+    backgroundColor: "rgba(0,0,0,0.95)",
     position: "relative",
     borderBottomWidth: 1,
     marginBottom: 10,
   },
   background: {
     paddingTop: 15,
-    backgroundColor: "black",
+    backgroundColor: "rgba(0,0,0,0.95)",
     height: Dimensions.get("window").height,
   },
   searchContainer: {

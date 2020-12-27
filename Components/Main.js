@@ -77,12 +77,12 @@ export default function Main({ navigation }) {
     navigation.navigate("Search");
     setLoading(true);
   };
-  if (!county) {
-    return <Loading message="Finding closest agencies" />;
+  if (!city) {
+    return <Loading initialLoad={true} message="Finding closest agencies" />;
   }
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="black" />
+      <StatusBar barStyle="light-content" backgroundColor="rgba(0,0,0,0.95)" />
       <ScrollView>
         <View style={styles.nine11}>
           <Text style={styles.nine11Text}>Emergency? Call</Text>
@@ -140,10 +140,10 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: Dimensions.get("window").height,
-    backgroundColor: "black",
+    backgroundColor: "rgba(0,0,0,0.95)",
   },
   faq: {
-    marginTop: 20,
+    marginTop: 8,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -152,25 +152,14 @@ const styles = StyleSheet.create({
     width: "65%",
     marginLeft: "auto",
     marginRight: "auto",
+    marginBottom: 40,
   },
   spinner: {
     position: "absolute",
     bottom: 75,
   },
-  loading: {
-    backgroundColor: "black",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "relative",
-  },
-  backgroundLoading: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "black",
-    height: Dimensions.get("window").height,
-  },
   faqButton: {
-    backgroundColor: "rgba(40,75,200,0.2)",
+    backgroundColor: "rgba(40,75,200,0.8)",
     borderWidth: 2,
     borderColor: "rgba(40,75,200,0.8)",
     borderRadius: 10,
@@ -191,7 +180,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   nine11: {
-    backgroundColor: "black",
+    backgroundColor: "rgba(0,0,0,0.95)",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -206,6 +195,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "600",
     padding: 5,
+    fontVariant: ["small-caps"],
   },
   call911: {
     borderWidth: 3,
@@ -250,6 +240,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     padding: 7,
     justifyContent: "center",
+    textShadowColor: "white",
   },
   button: {
     display: "flex",

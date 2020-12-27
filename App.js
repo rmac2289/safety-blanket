@@ -14,7 +14,7 @@ const App = () => {
   return (
     <LoadingContextProvider>
       <DataContextProvider>
-        <SafeAreaProvider style={{ backgroundColor: "black" }}>
+        <SafeAreaProvider style={{ backgroundColor: "rgba(0,0,0,0.95)" }}>
           <NavigationContainer>
             <Stack.Navigator>
               <Stack.Screen
@@ -23,7 +23,7 @@ const App = () => {
                 options={{
                   title: "Home",
                   headerStyle: {
-                    backgroundColor: "black",
+                    backgroundColor: "rgba(0,0,0,0.95)",
                     height: 0,
                   },
                 }}
@@ -34,7 +34,7 @@ const App = () => {
                 options={{
                   title: "All Departments",
                   headerStyle: {
-                    backgroundColor: "black",
+                    backgroundColor: "rgba(0,0,0,0.95)",
                   },
                   headerTintColor: "#fff",
                 }}
@@ -45,7 +45,7 @@ const App = () => {
                 options={{
                   title: "911 FAQ",
                   headerStyle: {
-                    backgroundColor: "black",
+                    backgroundColor: "rgba(0,0,0,0.95)",
                   },
                   headerTintColor: "#fff",
                 }}
