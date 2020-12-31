@@ -1,6 +1,7 @@
 import React from "react";
 import { ScrollView, Text, StyleSheet, Dimensions, View } from "react-native";
 import { faq } from "../services";
+
 const Faq = () => {
   const faqList = faq.map((v) => {
     return (

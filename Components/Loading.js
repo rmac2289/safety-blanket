@@ -1,16 +1,10 @@
 import React from "react";
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
 
 const Loading = ({ message, initialLoad }) => {
   return (
-    <View style={styles.backgroundLoading}>
+    <View style={styles.loadingBackground}>
       <View style={styles.loading}>
         <LottieView
           style={{
@@ -49,7 +43,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontWeight: "800",
   },
-  backgroundLoading: {
+  loadingBackground: {
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0,0,0,0.95)",

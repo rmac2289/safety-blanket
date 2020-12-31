@@ -9,6 +9,7 @@ import {
   StatusBar,
   Image,
 } from "react-native";
+import Error from "./Error";
 import oregon from "../assets/gettyimages-927443876-170667a.jpg";
 import SafeAreaView from "react-native-safe-area-view";
 import * as Location from "expo-location";
@@ -24,6 +25,7 @@ export default function Main({ navigation }) {
   const [loading, setLoading] = useContext(LoadingContext);
   const [data, setData] = useContext(DataContext);
   const [location, setLocation] = useState(null);
+  const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [city, setCity] = useState(null);
   const [county, setCounty] = useState(null);
@@ -50,10 +52,11 @@ export default function Main({ navigation }) {
       })
         .then((res) => res.json())
         .then((res) => setData(res.data))
-        .catch((err) => console.log(err));
+        .catch((err) => setError(true));
 
     fetchData();
   }, []);
+  console.log(data);
 
   useEffect(() => {
     (async () => {
@@ -70,6 +73,9 @@ export default function Main({ navigation }) {
       });
       setCity(reverseGeo[0].city);
       setCounty(reverseGeo[0].subregion);
+      if (!reverseGeo[0].city) {
+        setError(true);
+      }
     })();
   }, []);
 
@@ -79,6 +85,9 @@ export default function Main({ navigation }) {
   };
   if (!city) {
     return <Loading initialLoad={true} message="Finding closest agencies" />;
+  }
+  if (error) {
+    return <Error />;
   }
   return (
     <SafeAreaView style={styles.container}>
