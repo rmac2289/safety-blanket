@@ -14,11 +14,7 @@ import * as Location from "expo-location";
 import ClosestDepts from "./ClosestDepts";
 import { Divider } from "react-native-elements";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faListUl,
-  faLongArrowAltRight,
-  faQuestionCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faListUl, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { openPhone } from "../services";
 import { DataContext, LoadingContext } from "../context";
 import Loading from "./Loading";
@@ -31,6 +27,7 @@ export default function Main({ navigation }) {
   const [errorMsg, setErrorMsg] = useState(null);
   const [city, setCity] = useState(null);
   const [county, setCounty] = useState(null);
+  const [state, setState] = useState(null);
   const [buttonColor, setButtonColor] = useState(false);
 
   useEffect(() => {
@@ -74,6 +71,7 @@ export default function Main({ navigation }) {
       });
       setCity(reverseGeo[0].city);
       setCounty(reverseGeo[0].subregion);
+      setState(reverseGeo[0].region);
       if (!reverseGeo[0].city) {
         setError(true);
       }
@@ -81,7 +79,7 @@ export default function Main({ navigation }) {
   }, []);
 
   const buttonPress = () => {
-    navigation.navigate("Search");
+    navigation.navigate("States");
     setLoading(true);
   };
   if (!city) {
@@ -113,7 +111,14 @@ export default function Main({ navigation }) {
         </View>
         <Divider style={styles.divider} />
         <View>
-          {city && <ClosestDepts data={data} city={city} county={county} />}
+          {city && (
+            <ClosestDepts
+              data={data}
+              state={state}
+              city={city}
+              county={county}
+            />
+          )}
         </View>
         <TouchableOpacity
           activeOpacity={0.5}
@@ -169,7 +174,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     borderLeftWidth: 0,
     borderRightWidth: 3,
-    borderTopWidth: 0,
+    borderTopWidth: 1,
     borderBottomWidth: 3,
     borderColor: "rgb(40,75,220)",
     display: "flex",
@@ -230,7 +235,8 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: 0,
     borderColor: "rgba(255,255,255,0.8)",
-    borderWidth: 2,
+    borderWidth: 3,
+    borderTopWidth: 1,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     borderRightWidth: 0,
@@ -265,7 +271,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderLeftWidth: 0,
     borderRightWidth: 3,
-    borderTopWidth: 0,
+    borderTopWidth: 1,
     borderBottomWidth: 3,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,

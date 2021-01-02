@@ -11,17 +11,20 @@ const ClosestDepts = (props) => {
     return (
       v.city === props.city ||
       (v.agency.includes(props.county) && !v.agency.includes("(")) ||
-      v.agency === "Oregon State Police"
+      ((v.agency.includes("State") || v.agency.includes("Highway")) &&
+        v.state === props.state)
     );
   };
+
   const agencyList = props.data.agencies.filter(filterAgencies);
 
   const displayedAgencies = agencyList.map((v) => (
     <React.Fragment key={v.agency}>
       <View style={styles.container}>
-        {v.agency === "Oregon State Police" && (
-          <Text style={styles.hwyText}>On a state highway?</Text>
-        )}
+        {v.agency.includes("State") ||
+          (v.agency.includes("Highway") && (
+            <Text style={styles.hwyText}>On a state highway?</Text>
+          ))}
         <Text style={styles.text}>{v.agency}</Text>
         <View style={styles.buttonBox}>
           <TouchableOpacity

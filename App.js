@@ -1,5 +1,6 @@
 import React from "react";
 import Main from "./Components/Main";
+import States from "./Components/States";
 import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -32,7 +33,18 @@ const App = () => {
                 name="Search"
                 component={Search}
                 options={{
-                  title: "All Departments",
+                  title: "Departments",
+                  headerStyle: {
+                    backgroundColor: "rgba(0,0,0,0.95)",
+                  },
+                  headerTintColor: "#fff",
+                }}
+              />
+              <Stack.Screen
+                name="States"
+                component={States}
+                options={{
+                  title: "Departments by State",
                   headerStyle: {
                     backgroundColor: "rgba(0,0,0,0.95)",
                   },
