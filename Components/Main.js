@@ -7,16 +7,18 @@ import {
   Dimensions,
   TouchableOpacity,
   StatusBar,
-  Image,
 } from "react-native";
 import Error from "./Error";
-import oregon from "../assets/gettyimages-927443876-170667a.jpg";
 import SafeAreaView from "react-native-safe-area-view";
 import * as Location from "expo-location";
 import ClosestDepts from "./ClosestDepts";
 import { Divider } from "react-native-elements";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faListUl,
+  faLongArrowAltRight,
+  faQuestionCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { openPhone } from "../services";
 import { DataContext, LoadingContext } from "../context";
 import Loading from "./Loading";
@@ -56,7 +58,6 @@ export default function Main({ navigation }) {
 
     fetchData();
   }, []);
-  console.log(data);
 
   useEffect(() => {
     (async () => {
@@ -121,23 +122,22 @@ export default function Main({ navigation }) {
           onPressIn={() => setButtonColor(true)}
           onPressOut={() => setButtonColor(false)}
         >
-          <Text style={styles.text}>All Departments</Text>
+          <Text style={styles.faqText}>All Departments</Text>
 
-          <FontAwesomeIcon
-            style={{ marginLeft: 50 }}
-            color="rgba(255,255,255,0.9)"
-            size={38}
-            icon={faLongArrowAltRight}
-          />
+          <FontAwesomeIcon color="rgb(40,75,220)" size={28} icon={faListUl} />
         </TouchableOpacity>
         <View style={styles.faq}>
-          <Image source={oregon} style={styles.image} />
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => navigation.navigate("Faq")}
             style={styles.faqButton}
           >
-            <Text style={styles.nine11Text}>911 FAQ</Text>
+            <Text style={styles.faqText}>911 FAQ</Text>
+            <FontAwesomeIcon
+              color="rgb(40,75,220)"
+              size={28}
+              icon={faQuestionCircle}
+            />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -152,36 +152,33 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.95)",
   },
   faq: {
-    marginTop: 8,
+    marginRight: "auto",
+    width: "65%",
+    borderRadius: 20,
+    marginBottom: 40,
+  },
+  faqText: {
+    color: "rgb(40,75,220)",
+    fontSize: 22,
+    fontWeight: "600",
+  },
+  faqButton: {
+    backgroundColor: "rgba(255,255,255,0.95)",
+    borderRadius: 10,
+    borderBottomLeftRadius: 0,
+    borderTopLeftRadius: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 3,
+    borderTopWidth: 0,
+    borderBottomWidth: 3,
+    borderColor: "rgb(40,75,220)",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderRadius: 20,
-    width: "65%",
-    marginLeft: "auto",
-    marginRight: "auto",
-    marginBottom: 40,
-  },
-  spinner: {
-    position: "absolute",
-    bottom: 75,
-  },
-  faqButton: {
-    backgroundColor: "rgba(40,75,200,0.8)",
-    borderWidth: 2,
-    borderColor: "rgba(40,75,200,0.8)",
-    borderRadius: 10,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: 50,
-    width: "55%",
-  },
-  image: {
-    height: 50,
-    width: 75,
-    opacity: 0.9,
+    paddingLeft: 10,
+    paddingRight: 10,
+    height: 55,
   },
   divider: {
     backgroundColor: "rgba(255,255,255,0.2)",
@@ -213,7 +210,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   call911Text: {
-    color: "rgba(255,255,255,0.9)",
+    color: "white",
     textAlign: "center",
     fontWeight: "700",
     fontSize: 22,
@@ -255,16 +252,21 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
-    width: "85%",
-    borderWidth: 2,
-    borderColor: "rgba(255,255,255,0.8)",
+    justifyContent: "space-between",
+    width: "75%",
+    borderColor: "rgb(40,75,220)",
+    backgroundColor: "rgba(255,255,255,0.95)",
     marginLeft: 0,
     marginRight: "auto",
-    padding: 3,
-    marginBottom: 25,
+    height: 55,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 10,
     borderRadius: 10,
     borderLeftWidth: 0,
+    borderRightWidth: 3,
+    borderTopWidth: 0,
+    borderBottomWidth: 3,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
   },

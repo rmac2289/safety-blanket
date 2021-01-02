@@ -32,16 +32,16 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   qaBox: {
-    backgroundColor: "rgba(255,255,255,0.05)",
+    backgroundColor: "rgba(255,255,255,0.025)",
     padding: 10,
     borderWidth: 2,
-    borderColor: "rgba(40,75,200,0.5)",
+    borderColor: "rgba(40,125,200,0.5)",
     margin: 6,
     borderRadius: 10,
   },
   question: {
-    color: "rgb(40,110,200)",
-    fontSize: 20,
+    color: "rgb(40,125,200)",
+    fontSize: 22,
     fontWeight: "600",
   },
   answer: {

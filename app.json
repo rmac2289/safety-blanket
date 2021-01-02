@@ -2,7 +2,7 @@
   "expo": {
     "name": "safety-blanket",
     "slug": "safety-blanket",
-    "version": "1.1.1",
+    "version": "1.1.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

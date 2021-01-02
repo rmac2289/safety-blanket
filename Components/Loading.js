@@ -8,13 +8,13 @@ const Loading = ({ message, initialLoad }) => {
       <View style={styles.loading}>
         <LottieView
           style={{
-            height: 150,
-            width: 150,
+            height: initialLoad ? 150 : Dimensions.get("window").height / 2,
+            width: initialLoad ? 150 : Dimensions.get("window").width / 2,
           }}
           source={
             initialLoad
-              ? require("../animation.json")
-              : require("../loading.json")
+              ? require("../assets/gpsAnim.json")
+              : require("../assets/loadingAnim.json")
           }
           autoPlay
           loop

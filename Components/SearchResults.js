@@ -16,9 +16,9 @@ const SearchResults = (props) => {
     .filter((v) =>
       v.agency.toLowerCase().includes(props.searchText.toLowerCase())
     )
-    .map((v) => {
+    .map((v, i) => {
       return (
-        <React.Fragment key={v.agency}>
+        <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
           <View style={styles.container}>
             <Text style={styles.firstLetter}>
               {v.agency.slice(0, 1)}
