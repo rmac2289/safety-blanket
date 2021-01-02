@@ -14,8 +14,11 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { LoadingContext } from "../context";
 import Loading from "./Loading";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { StateContext } from "../context";
 
 const Search = () => {
+  const [pressedState, setPressedState] = useContext(StateContext);
+  console.log(pressedState);
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useContext(LoadingContext);
 
@@ -41,7 +44,7 @@ const Search = () => {
           </View>
         </View>
         <ScrollView style={styles.listBox}>
-          <SearchResults searchText={searchText} />
+          <SearchResults state={pressedState} searchText={searchText} />
         </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

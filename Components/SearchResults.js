@@ -10,12 +10,14 @@ import { DataContext } from "../context";
 const SearchResults = (props) => {
   const [data] = useContext(DataContext);
   const agencyData = data.agencies;
-
   const agencyList = agencyData
     .sort(alphaSort)
-    .filter((v) =>
-      v.agency.toLowerCase().includes(props.searchText.toLowerCase())
-    )
+    .filter((v) => {
+      return (
+        v.agency.toLowerCase().includes(props.searchText.toLowerCase()) &&
+        v.state === props.state
+      );
+    })
     .map((v, i) => {
       return (
         <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
@@ -50,7 +52,12 @@ const SearchResults = (props) => {
       );
     });
 
-  return <ScrollView style={styles.scrollContainer}>{agencyList}</ScrollView>;
+  return (
+    <ScrollView style={styles.scrollContainer}>
+      <Text style={styles.text}>{props.state}</Text>
+      {agencyList}
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({

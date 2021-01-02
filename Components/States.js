@@ -1,19 +1,26 @@
-import React, { useState, useRef } from "react";
+import React, { useContext } from "react";
 import { usStates } from "../services";
 import { ScrollView, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { StateContext } from "../context";
 
 const States = () => {
+  const [pressedState, setPressedState] = useContext(StateContext);
   const navigation = useNavigation();
 
-  const getDepts = () => {
+  const getDepts = (event) => {
     navigation.navigate("Search");
+    setPressedState(
+      event._dispatchInstances.memoizedProps.children[0].props.value
+    );
   };
 
   const stateList = usStates.map((state) => {
     return (
       <TouchableOpacity style={styles.button} onPress={getDepts}>
-        <Text style={styles.text}>{state.stateName}</Text>
+        <Text value={state.abbr} style={styles.text}>
+          {state.stateName}
+        </Text>
       </TouchableOpacity>
     );
   });

@@ -23,3 +23,15 @@ export const LoadingContextProvider = (props) => {
     </LoadingContext.Provider>
   );
 };
+
+export const StateContext = createContext();
+
+export const StateContextProvider = (props) => {
+  const [pressedState, setPressedState] = useState("");
+
+  return (
+    <StateContext.Provider value={[pressedState, setPressedState]}>
+      {props.children}
+    </StateContext.Provider>
+  );
+};
