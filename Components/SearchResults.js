@@ -52,12 +52,7 @@ const SearchResults = (props) => {
       );
     });
 
-  return (
-    <ScrollView style={styles.scrollContainer}>
-      <Text style={styles.text}>{props.state}</Text>
-      {agencyList}
-    </ScrollView>
-  );
+  return <ScrollView style={styles.scrollContainer}>{agencyList}</ScrollView>;
 };
 
 const styles = StyleSheet.create({
@@ -81,7 +76,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     shadowColor: "rgb(40,75,220)",
-
     shadowOffset: { height: 1, width: 1 },
     shadowRadius: 0.75,
     shadowOpacity: 1,

@@ -30,20 +30,22 @@ const App = () => {
                     title: "Home",
                     headerStyle: {
                       backgroundColor: "rgba(0,0,0,0.95)",
-                      height: 0,
                     },
+                    headerTintColor: "#fff",
                   }}
                 />
                 <Stack.Screen
                   name="Search"
                   component={Search}
-                  options={{
-                    title: "Departments",
-                    headerStyle: {
-                      backgroundColor: "rgba(0,0,0,0.95)",
-                    },
-                    headerTintColor: "#fff",
-                  }}
+                  options={
+                    (({ route }) => ({ title: route.params.state }),
+                    {
+                      headerStyle: {
+                        backgroundColor: "rgba(0,0,0,0.95)",
+                      },
+                      headerTintColor: "#fff",
+                    })
+                  }
                 />
                 <Stack.Screen
                   name="States"

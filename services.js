@@ -80,7 +80,7 @@ export const usStates = [
   { abbr: "CO", stateName: "Colorado" },
   { abbr: "CT", stateName: "Connecticut" },
   { abbr: "DE", stateName: "Delaware" },
-  { abbr: "DC", stateName: "District Of Columbia" },
+  { abbr: "DC", stateName: "Washington, DC" },
   { abbr: "FL", stateName: "Florida" },
   { abbr: "GA", stateName: "Georgia" },
   { abbr: "HI", stateName: "Hawaii" },

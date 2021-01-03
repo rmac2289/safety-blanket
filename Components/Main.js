@@ -13,7 +13,7 @@ import SafeAreaView from "react-native-safe-area-view";
 import * as Location from "expo-location";
 import ClosestDepts from "./ClosestDepts";
 import { Divider } from "react-native-elements";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import NavButton from "./NavButton";
 import { faListUl, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { openPhone } from "../services";
 import { DataContext, LoadingContext } from "../context";
@@ -28,7 +28,6 @@ export default function Main({ navigation }) {
   const [city, setCity] = useState(null);
   const [county, setCounty] = useState(null);
   const [state, setState] = useState(null);
-  const [buttonColor, setButtonColor] = useState(false);
 
   useEffect(() => {
     const fetchData = () =>
@@ -78,9 +77,12 @@ export default function Main({ navigation }) {
     })();
   }, []);
 
-  const buttonPress = () => {
+  const deptButtonPress = () => {
     navigation.navigate("States");
     setLoading(true);
+  };
+  const faqButtonPress = () => {
+    navigation.navigate("Faq");
   };
   if (!city) {
     return <Loading initialLoad={true} message="Finding closest agencies" />;
@@ -89,64 +91,43 @@ export default function Main({ navigation }) {
     return <Error />;
   }
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="rgba(0,0,0,0.95)" />
-      <ScrollView>
-        <View style={styles.nine11}>
-          <Text style={styles.nine11Text}>Emergency? Call</Text>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => openPhone("911")}
-            style={styles.call911}
-          >
-            <Text style={styles.call911Text}>9-1-1</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.textView}>
-          {location ? (
-            <Text style={styles.text}>public safety agencies near you</Text>
-          ) : (
-            <Text style={styles.text}>{errorMsg}...</Text>
-          )}
-        </View>
-        <Divider style={styles.divider} />
-        <View>
-          {city && (
-            <ClosestDepts
-              data={data}
-              state={state}
-              city={city}
-              county={county}
-            />
-          )}
-        </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.nine11}>
+        <Text style={styles.nine11Text}>Emergency?</Text>
         <TouchableOpacity
           activeOpacity={0.5}
-          style={styles.button}
-          onPress={buttonPress}
-          onPressIn={() => setButtonColor(true)}
-          onPressOut={() => setButtonColor(false)}
+          onPress={() => openPhone("911")}
+          style={styles.call911}
         >
-          <Text style={styles.faqText}>All Departments</Text>
-
-          <FontAwesomeIcon color="rgb(40,75,220)" size={28} icon={faListUl} />
+          <Text style={styles.call911Text}>Call 9-1-1</Text>
         </TouchableOpacity>
-        <View style={styles.faq}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => navigation.navigate("Faq")}
-            style={styles.faqButton}
-          >
-            <Text style={styles.faqText}>911 FAQ</Text>
-            <FontAwesomeIcon
-              color="rgb(40,75,220)"
-              size={28}
-              icon={faQuestionCircle}
-            />
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+      <View style={styles.textView}>
+        {location ? (
+          <Text style={styles.text}>public safety agencies near you</Text>
+        ) : (
+          <Text style={styles.text}>{errorMsg}...</Text>
+        )}
+      </View>
+      <Divider style={styles.divider} />
+      <View>
+        {city && (
+          <ClosestDepts data={data} state={state} city={city} county={county} />
+        )}
+      </View>
+      <NavButton
+        buttonPress={deptButtonPress}
+        icon={faListUl}
+        title="All Departments"
+      />
+      <View style={styles.faq}>
+        <NavButton
+          buttonPress={faqButtonPress}
+          icon={faQuestionCircle}
+          title="911 FAQ"
+        />
+      </View>
+    </ScrollView>
   );
 }
 
@@ -157,33 +138,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.95)",
   },
   faq: {
-    marginRight: "auto",
-    width: "65%",
+    width: "100%",
     borderRadius: 20,
-    marginBottom: 40,
-  },
-  faqText: {
-    color: "rgb(40,75,220)",
-    fontSize: 22,
-    fontWeight: "600",
-  },
-  faqButton: {
-    backgroundColor: "rgba(255,255,255,0.95)",
-    borderRadius: 10,
-    borderBottomLeftRadius: 0,
-    borderTopLeftRadius: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 3,
-    borderTopWidth: 1,
-    borderBottomWidth: 3,
-    borderColor: "rgb(40,75,220)",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingLeft: 10,
-    paddingRight: 10,
-    height: 55,
+    marginBottom: 20,
   },
   divider: {
     backgroundColor: "rgba(255,255,255,0.2)",
@@ -197,7 +154,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
     padding: 10,
-    paddingTop: 40,
+    paddingTop: 20,
     justifyContent: "center",
   },
   nine11Text: {
@@ -209,10 +166,11 @@ const styles = StyleSheet.create({
     fontVariant: ["small-caps"],
   },
   call911: {
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: "rgba(220,0,0,0.8)",
+    backgroundColor: "rgba(220,0,0,0.7)",
     marginLeft: 10,
-    borderRadius: 2,
+    borderRadius: 8,
   },
   call911Text: {
     color: "white",
@@ -235,8 +193,8 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: 0,
     borderColor: "rgba(255,255,255,0.8)",
-    borderWidth: 3,
-    borderTopWidth: 1,
+    borderWidth: 1,
+    borderTopWidth: 2,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
     borderRightWidth: 0,
@@ -253,27 +211,5 @@ const styles = StyleSheet.create({
     padding: 7,
     justifyContent: "center",
     textShadowColor: "white",
-  },
-  button: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "75%",
-    borderColor: "rgb(40,75,220)",
-    backgroundColor: "rgba(255,255,255,0.95)",
-    marginLeft: 0,
-    marginRight: "auto",
-    height: 55,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    borderLeftWidth: 0,
-    borderRightWidth: 3,
-    borderTopWidth: 1,
-    borderBottomWidth: 3,
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
   },
 });

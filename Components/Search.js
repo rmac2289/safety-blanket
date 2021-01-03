@@ -15,15 +15,16 @@ import { LoadingContext } from "../context";
 import Loading from "./Loading";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { StateContext } from "../context";
+import { useNavigation } from "@react-navigation/native";
 
 const Search = () => {
   const [pressedState, setPressedState] = useContext(StateContext);
-  console.log(pressedState);
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useContext(LoadingContext);
-
+  const navigation = useNavigation();
   useEffect(() => {
     setLoading(false);
+    navigation.setOptions({ title: pressedState });
   }, []);
   if (loading) {
     return <Loading initialLoad={false} message="Loading" />;
