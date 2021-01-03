@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     borderColor: "rgb(40,75,220)",
-    backgroundColor: "rgba(0,0,0,0.95)",
+    backgroundColor: "transparent",
     marginLeft: 0,
     marginRight: "auto",
     height: 55,

@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   qaBox: {
-    backgroundColor: "rgba(255,255,255,0.025)",
     padding: 10,
     borderWidth: 2,
     borderColor: "rgba(40,125,200,0.5)",
@@ -50,6 +49,7 @@ const styles = StyleSheet.create({
     width: "95%",
     marginLeft: "auto",
     marginRight: "auto",
+    lineHeight: 20,
   },
   header: {
     display: "flex",

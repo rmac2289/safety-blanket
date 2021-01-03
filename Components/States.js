@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { StateContext } from "../context";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +15,6 @@ import { Divider } from "react-native-elements";
 const States = () => {
   const [pressedState, setPressedState] = useContext(StateContext);
   const navigation = useNavigation();
-  const route = useRoute();
 
   const getDepts = (event) => {
     navigation.navigate("Search");
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
   text: {
     color: "rgba(255,255,255,0.95)",
     fontSize: 21,
-    fontWeight: "600",
+    fontWeight: "500",
   },
   listContainer: {
     width: "98%",
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 5,
     padding: 5,
-    backgroundColor: "rgba(0,0,0,0.95)",
+    backgroundColor: "transparent",
   },
   container: {
     backgroundColor: "rgba(0,0,0,0.95)",

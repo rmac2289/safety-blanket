@@ -6,10 +6,8 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
-  StatusBar,
 } from "react-native";
 import Error from "./Error";
-import SafeAreaView from "react-native-safe-area-view";
 import * as Location from "expo-location";
 import ClosestDepts from "./ClosestDepts";
 import { Divider } from "react-native-elements";
@@ -148,13 +146,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   nine11: {
-    backgroundColor: "rgba(0,0,0,0.95)",
+    backgroundColor: "transparent",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
     padding: 10,
-    paddingTop: 20,
+    paddingTop: 5,
     justifyContent: "center",
   },
   nine11Text: {

@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontWeight: "600",
+    fontWeight: "500",
     marginBottom: 10,
     color: "rgba(255,255,255,0.9)",
   },

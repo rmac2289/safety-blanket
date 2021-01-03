@@ -1,9 +1,12 @@
 import React from "react";
 import Main from "./Components/Main";
 import States from "./Components/States";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import "react-native-gesture-handler";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  HeaderBackButton,
+} from "@react-navigation/stack";
 import Search from "./Components/Search";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
@@ -27,9 +30,9 @@ const App = () => {
                   name="Main"
                   component={Main}
                   options={{
-                    title: "Home",
+                    title: "",
                     headerStyle: {
-                      backgroundColor: "rgba(0,0,0,0.95)",
+                      backgroundColor: "transparent",
                     },
                     headerTintColor: "#fff",
                   }}
@@ -41,8 +44,13 @@ const App = () => {
                     (({ route }) => ({ title: route.params.state }),
                     {
                       headerStyle: {
-                        backgroundColor: "rgba(0,0,0,0.95)",
+                        backgroundColor: "transparent",
                       },
+                      headerTitleStyle: {
+                        fontWeight: "700",
+                        fontVariant: ["small-caps"],
+                      },
+
                       headerTintColor: "#fff",
                     })
                   }
@@ -53,7 +61,7 @@ const App = () => {
                   options={{
                     title: "Departments by State",
                     headerStyle: {
-                      backgroundColor: "rgba(0,0,0,0.95)",
+                      backgroundColor: "transparent",
                     },
                     headerTintColor: "#fff",
                   }}
@@ -62,9 +70,14 @@ const App = () => {
                   name="Faq"
                   component={Faq}
                   options={{
-                    title: "911 FAQ",
+                    title: "FAQ",
+                    headerTitleStyle: {
+                      fontWeight: "700",
+                      fontVariant: ["small-caps"],
+                    },
                     headerStyle: {
-                      backgroundColor: "rgba(0,0,0,0.95)",
+                      backgroundColor: "transparent",
+                      borderBottomColor: "white",
                     },
                     headerTintColor: "#fff",
                   }}

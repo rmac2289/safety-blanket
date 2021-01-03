@@ -37,7 +37,7 @@ export const faq = [
   },
   {
     question: "What information should I be ready to tell the operator?",
-    answer: `- The location of the emergency, including the street address, and room/apartment number, if you’re in a large building.\n- The phone number you're calling from.\n- The nature of the emergency.\n- Details about the emergency, such as a physical description of a person who may have committed a crime, a description of any fire that may be burning, or a description of injuries or symptoms being experienced by a person having a medical emergency.`,
+    answer: `• The location of the emergency, including the street address, and room/apartment number, if you’re in a large building.\n• The phone number you're calling from.\n• The nature of the emergency.\n• Details about the emergency, such as a physical description of a person who may have committed a crime, a description of any fire that may be burning, or a description of injuries or symptoms being experienced by a person having a medical emergency.`,
   },
   {
     question: "Can't I just text 911 instead?",
@@ -67,7 +67,7 @@ export const faq = [
   {
     question: "General tips when calling for help.",
     answer:
-      "- Do your best to remain as calm as possible. The easier it is for the dispatcher to understand the situation, the faster help can arrive.\n- Listen to the dispatcher and answer their questions as they are asked.\n- Speak clearly and slowly.\n- The most important piece of information is the location of the emergency. Be aware of your surroundings and provide as precise of a location as possible.\n- Never call 911 for information. This takes up a 911 line and a dispatcher's time, which can delay a response to a true emergency.",
+      "• Do your best to remain as calm as possible. The easier it is for the dispatcher to understand the situation, the faster help can arrive.\n• Listen to the dispatcher and answer their questions as they are asked.\n• Speak clearly and slowly.\n• The most important piece of information is the location of the emergency. Be aware of your surroundings and provide as precise of a location as possible.\n• Never call 911 for information. This takes up a 911 line and a dispatcher's time, which can delay a response to a true emergency.",
   },
 ];
 

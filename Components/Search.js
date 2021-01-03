@@ -18,7 +18,7 @@ import { StateContext } from "../context";
 import { useNavigation } from "@react-navigation/native";
 
 const Search = () => {
-  const [pressedState, setPressedState] = useContext(StateContext);
+  const [pressedState] = useContext(StateContext);
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useContext(LoadingContext);
   const navigation = useNavigation();
@@ -54,9 +54,8 @@ const Search = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "rgba(0,0,0,0.95)",
+    backgroundColor: "transparent",
     position: "relative",
-    borderBottomWidth: 1,
     marginBottom: 10,
   },
   background: {
