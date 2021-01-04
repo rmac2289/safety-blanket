@@ -1,14 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPhone,
+  faMapMarkerAlt,
+  faAddressBook,
+} from "@fortawesome/free-solid-svg-icons";
 import { alphaSort, openPhone, openMaps, formatPhoneNum } from "../services";
 import { Divider } from "react-native-elements";
 import { DataContext } from "../context";
+import * as Contacts from "expo-contacts";
 
 const SearchResults = (props) => {
   const [data] = useContext(DataContext);
+
+  const add = async (agency, phone) => {
+    const { status } = await Contacts.requestPermissionsAsync();
+    if (status === "granted") {
+      const contact = {
+        [Contacts.Fields.FirstName]: agency,
+        [Contacts.Fields.PhoneNumbers]: [{ number: phone }],
+      };
+      await Contacts.addContactAsync(contact)
+        .then((success) => alert("success!"))
+        .catch((err) => console.log(err));
+    }
+  };
+
   const agencyData = data.agencies;
   const agencyList = agencyData
     .sort(alphaSort)
@@ -25,6 +44,11 @@ const SearchResults = (props) => {
             <Text style={styles.firstLetter}>
               {v.agency.slice(0, 1)}
               <Text style={styles.text}>{v.agency.slice(1)}</Text>
+              <FontAwesomeIcon
+                onPress={() => add(v.agency, v.phone)}
+                icon={faAddressBook}
+                color="rgba(255,255,255,0.95)"
+              />
             </Text>
 
             <View style={styles.buttonBox}>
