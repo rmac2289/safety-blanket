@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -10,22 +10,23 @@ import {
 import { alphaSort, openPhone, openMaps, formatPhoneNum } from "../services";
 import { Divider } from "react-native-elements";
 import { DataContext } from "../context";
-import * as Contacts from "expo-contacts";
+import ContactsModal from "./ContactsModal";
 
 const SearchResults = (props) => {
   const [data] = useContext(DataContext);
-
-  const add = async (agency, phone) => {
-    const { status } = await Contacts.requestPermissionsAsync();
-    if (status === "granted") {
-      const contact = {
-        [Contacts.Fields.FirstName]: agency,
-        [Contacts.Fields.PhoneNumbers]: [{ number: phone }],
-      };
-      await Contacts.addContactAsync(contact)
-        .then((success) => alert("success!"))
-        .catch((err) => console.log(err));
-    }
+  const [currentPhone, setPhone] = useState("");
+  const [currentStreet, setStreet] = useState("");
+  const [currentCity, setCity] = useState("");
+  const [currentZip, setZip] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [currentAgency, setCurrentAgency] = useState("");
+  const toggleModal = (current, phone, street, city, zip) => {
+    setShowModal(!showModal);
+    setCurrentAgency(current);
+    setPhone(phone);
+    setStreet(street);
+    setCity(city);
+    setZip(`${zip}`);
   };
 
   const agencyData = data.agencies;
@@ -44,11 +45,6 @@ const SearchResults = (props) => {
             <Text style={styles.firstLetter}>
               {v.agency.slice(0, 1)}
               <Text style={styles.text}>{v.agency.slice(1)}</Text>
-              <FontAwesomeIcon
-                onPress={() => add(v.agency, v.phone)}
-                icon={faAddressBook}
-                color="rgba(255,255,255,0.95)"
-              />
             </Text>
 
             <View style={styles.buttonBox}>
@@ -67,16 +63,43 @@ const SearchResults = (props) => {
                 style={styles.mapsButton}
               >
                 <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
-                <Text style={styles.buttonText}>Open Google Maps</Text>
+                <Text style={styles.buttonText}>Google Maps</Text>
               </TouchableOpacity>
             </View>
+            <TouchableOpacity
+              style={styles.contactsButton}
+              onPress={() =>
+                toggleModal(v.agency, v.phone, v.street, v.city, v.zip)
+              }
+            >
+              <FontAwesomeIcon
+                icon={faAddressBook}
+                color="rgba(255,255,255,0.95)"
+                size={22}
+              />
+            </TouchableOpacity>
           </View>
           <Divider />
         </React.Fragment>
       );
     });
 
-  return <ScrollView style={styles.scrollContainer}>{agencyList}</ScrollView>;
+  return (
+    <ScrollView style={styles.scrollContainer}>
+      {showModal && (
+        <ContactsModal
+          agency={currentAgency}
+          showModal={showModal}
+          toggleModal={toggleModal}
+          currentPhone={currentPhone}
+          currentStreet={currentStreet}
+          currentCity={currentCity}
+          currentZip={currentZip}
+        />
+      )}
+      {agencyList}
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -86,6 +109,24 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     marginBottom: 10,
   },
+  agencyName: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  contactsButton: {
+    position: "absolute",
+    top: -5,
+    right: 0,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 30,
+    height: 20,
+    backgroundColor: "rgb(40,75,220)",
+  },
   container: {
     width: "95%",
     marginBottom: 10,
@@ -94,6 +135,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     paddingTop: 5,
     paddingBottom: 5,
+    position: "relative",
   },
   buttonBox: {
     display: "flex",
