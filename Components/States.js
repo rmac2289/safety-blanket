@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    height: 50,
+    height: 42,
     alignItems: "center",
     margin: 5,
     padding: 5,
