@@ -63,7 +63,7 @@ const SearchResults = (props) => {
                 style={styles.mapsButton}
               >
                 <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
-                <Text style={styles.buttonText}>Google Maps</Text>
+                <Text style={styles.buttonText}>Open Google Maps</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
@@ -79,7 +79,9 @@ const SearchResults = (props) => {
               />
             </TouchableOpacity>
           </View>
-          <Divider />
+          <Divider
+            style={{ height: 0.5, backgroundColor: "rgba(255,255,255,0.3)" }}
+          />
         </React.Fragment>
       );
     });
@@ -168,15 +170,14 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "rgba(40,75,200,0.2)",
-    borderRadius: 5,
     borderWidth: 2,
     borderColor: "rgba(40, 75, 200, 0.8)",
     flex: 1,
     height: 55,
     display: "flex",
     flexDirection: "row",
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 7,
+    borderBottomLeftRadius: 7,
     borderBottomRightRadius: 0,
     borderTopRightRadius: 0,
     borderRightWidth: 0,
@@ -192,8 +193,9 @@ const styles = StyleSheet.create({
     width: "100%",
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 10,
-    borderTopRightRadius: 10,
+    borderBottomRightRadius: 7,
+    borderTopRightRadius: 7,
+    borderLeftWidth: 4,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",

@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
-    marginBottom: 100,
+    marginBottom: 200,
   },
   loadingText: {
     color: "rgba(255,255,255,0.9)",

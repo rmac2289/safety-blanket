@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPhone, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPhone, faDirections } from "@fortawesome/free-solid-svg-icons";
 import { openPhone, openMaps, formatPhoneNum } from "../services";
 import { Divider } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
@@ -32,7 +32,7 @@ const ClosestDepts = (props) => {
             style={styles.button}
             onPress={() => openPhone(v.phone)}
           >
-            <FontAwesomeIcon style={styles.icon} icon={faPhone} />
+            <FontAwesomeIcon style={styles.icon} icon={faPhone} size={20} />
             <Text style={styles.buttonText}>
               {v.agency === "Oregon State Police"
                 ? "*677"
@@ -44,7 +44,11 @@ const ClosestDepts = (props) => {
             onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
             style={styles.mapsButton}
           >
-            <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
+            <FontAwesomeIcon
+              style={styles.icon}
+              icon={faDirections}
+              size={22}
+            />
             <Text style={styles.buttonText}>Open Google Maps</Text>
           </TouchableOpacity>
         </View>
@@ -90,8 +94,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   divider: {
-    backgroundColor: "rgba(255,255,255,0.2)",
-    height: 2,
+    backgroundColor: "rgba(255,255,255,0.3)",
+    height: 0.5,
     marginBottom: 10,
   },
   text: {
@@ -107,23 +111,22 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "rgba(40,75,200,0.2)",
-    borderRadius: 5,
     borderWidth: 2,
-    borderColor: "rgba(40, 75, 200, 0.8)",
+    borderColor: "rgba(40, 75, 200, 0.9)",
     borderRightWidth: 0,
     flex: 1,
     height: 55,
     display: "flex",
     flexDirection: "row",
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 7,
+    borderBottomLeftRadius: 7,
     borderBottomRightRadius: 0,
     borderTopRightRadius: 0,
     alignItems: "center",
     justifyContent: "space-evenly",
   },
   mapsButton: {
-    backgroundColor: "rgba(40,75,200,0.8)",
+    backgroundColor: "rgba(40,75,200,0.9)",
     flex: 1,
     height: 55,
     borderWidth: 2,
@@ -131,8 +134,9 @@ const styles = StyleSheet.create({
     width: "100%",
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 10,
-    borderTopRightRadius: 10,
+    borderBottomRightRadius: 7,
+    borderTopRightRadius: 7,
+    borderLeftWidth: 4,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",

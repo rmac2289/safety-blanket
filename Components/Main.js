@@ -12,10 +12,26 @@ import * as Location from "expo-location";
 import ClosestDepts from "./ClosestDepts";
 import { Divider } from "react-native-elements";
 import NavButton from "./NavButton";
-import { faListUl, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMapMarkerAlt,
+  faCaretDown,
+  faListUl,
+  faMapMarkedAlt,
+  faQuestionCircle,
+  faCaretSquareDown,
+  faAngleDown,
+  faArrowDown,
+  faVolumeDown,
+  faChevronDown,
+  faArrowCircleDown,
+  faAngleDoubleDown,
+  faArrowAltCircleDown,
+  faLongArrowAltDown,
+} from "@fortawesome/free-solid-svg-icons";
 import { openPhone } from "../services";
 import { DataContext, LoadingContext } from "../context";
 import Loading from "./Loading";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 export default function Main({ navigation }) {
   const [loading, setLoading] = useContext(LoadingContext);
@@ -101,13 +117,23 @@ export default function Main({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.textView}>
+        <FontAwesomeIcon
+          icon={faMapMarkedAlt}
+          color="rgb(40,75,200)"
+          size={28}
+        />
         {location ? (
-          <Text style={styles.text}>public safety agencies near you</Text>
+          <Text style={styles.text}>your closest agencies </Text>
         ) : (
           <Text style={styles.text}>{errorMsg}...</Text>
         )}
+        <FontAwesomeIcon
+          icon={faCaretDown}
+          color="rgb(255,255,255)"
+          size={42}
+          style={styles.icon}
+        />
       </View>
-      <Divider style={styles.divider} />
       <View>
         {city && (
           <ClosestDepts data={data} state={state} city={city} county={county} />
@@ -139,11 +165,6 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 20,
     marginBottom: 20,
-  },
-  divider: {
-    backgroundColor: "rgba(255,255,255,0.2)",
-    height: 2,
-    marginBottom: 10,
   },
   nine11: {
     backgroundColor: "transparent",
@@ -187,22 +208,36 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
   textView: {
-    width: "95%",
+    width: "100%",
     marginLeft: "auto",
-    marginRight: 0,
-    borderColor: "rgba(255,255,255,0.8)",
+    marginRight: "auto",
+    borderColor: "rgb(255,255,255)",
+    backgroundColor: "rgb(255,255,255)",
+
     borderWidth: 1,
     borderTopWidth: 2,
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
-    borderRightWidth: 0,
+    borderRadius: 5,
     justifyContent: "center",
-    marginBottom: 15,
+    marginBottom: 25,
     marginTop: 10,
+    padding: 3,
     alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+  },
+  icon: {
+    position: "absolute",
+    bottom: -25,
+    width: 25,
+    left: "25%",
+    marginLeft: -12.5,
   },
   text: {
-    color: "rgba(255,255,255,0.9)",
+    marginLeft: 10,
+    color: "rgb(40,75,200)",
     fontSize: 22,
     textAlign: "left",
     fontWeight: "700",
