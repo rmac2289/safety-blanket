@@ -32,7 +32,6 @@ export const ContactsModal = ({
           },
         ],
       };
-      console.log(contact);
       await Contacts.addContactAsync(contact)
         .then(() => setContactAdded(true))
         .catch((err) => console.log(err));

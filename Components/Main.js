@@ -13,20 +13,10 @@ import ClosestDepts from "./ClosestDepts";
 import { Divider } from "react-native-elements";
 import NavButton from "./NavButton";
 import {
-  faMapMarkerAlt,
   faCaretDown,
   faListUl,
   faMapMarkedAlt,
   faQuestionCircle,
-  faCaretSquareDown,
-  faAngleDown,
-  faArrowDown,
-  faVolumeDown,
-  faChevronDown,
-  faArrowCircleDown,
-  faAngleDoubleDown,
-  faArrowAltCircleDown,
-  faLongArrowAltDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { openPhone } from "../services";
 import { DataContext, LoadingContext } from "../context";
