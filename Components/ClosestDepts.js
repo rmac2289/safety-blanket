@@ -9,7 +9,7 @@ import { TouchableOpacity } from "react-native";
 const ClosestDepts = (props) => {
   const filterAgencies = (v) => {
     return (
-      v.city === props.city ||
+      (v.city === props.city && v.state === props.state) ||
       (v.agency.includes(props.county) && !v.agency.includes("(")) ||
       ((v.agency.includes("State") || v.agency.includes("Highway")) &&
         v.state === props.state)
@@ -18,44 +18,47 @@ const ClosestDepts = (props) => {
 
   const agencyList = props.data.agencies.filter(filterAgencies);
 
-  const displayedAgencies = agencyList.map((v) => (
-    <React.Fragment key={v.agency}>
-      <View style={styles.container}>
-        {v.agency.includes("State") ||
-          (v.agency.includes("Highway") && (
-            <Text style={styles.hwyText}>On a state highway?</Text>
-          ))}
-        <Text style={styles.text}>{v.agency}</Text>
-        <View style={styles.buttonBox}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={styles.button}
-            onPress={() => openPhone(v.phone)}
-          >
-            <FontAwesomeIcon style={styles.icon} icon={faPhone} size={20} />
-            <Text style={styles.buttonText}>
-              {v.agency === "Oregon State Police"
-                ? "*677"
-                : formatPhoneNum(v.phone)}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
-            style={styles.mapsButton}
-          >
-            <FontAwesomeIcon
-              style={styles.icon}
-              icon={faDirections}
-              size={22}
-            />
-            <Text style={styles.buttonText}>Open Google Maps</Text>
-          </TouchableOpacity>
+  const displayedAgencies = agencyList.map((v) => {
+    v.zip.length === 4 ? (v.zip = `0${v.zip}`) : null;
+    return (
+      <React.Fragment key={v.agency}>
+        <View style={styles.container}>
+          {v.agency.includes("State") ||
+            (v.agency.includes("Highway") && (
+              <Text style={styles.hwyText}>On a state highway?</Text>
+            ))}
+          <Text style={styles.text}>{v.agency}</Text>
+          <View style={styles.buttonBox}>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={styles.button}
+              onPress={() => openPhone(v.phone)}
+            >
+              <FontAwesomeIcon style={styles.icon} icon={faPhone} size={20} />
+              <Text style={styles.buttonText}>
+                {v.agency === "Oregon State Police"
+                  ? "*677"
+                  : formatPhoneNum(v.phone)}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
+              style={styles.mapsButton}
+            >
+              <FontAwesomeIcon
+                style={styles.icon}
+                icon={faDirections}
+                size={22}
+              />
+              <Text style={styles.buttonText}>Open Google Maps</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <Divider style={styles.divider} />
-    </React.Fragment>
-  ));
+        <Divider style={styles.divider} />
+      </React.Fragment>
+    );
+  });
 
   return <ScrollView style={styles.scrollView}>{displayedAgencies}</ScrollView>;
 };
