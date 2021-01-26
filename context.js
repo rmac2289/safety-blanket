@@ -58,20 +58,20 @@ export const UserLocContextProvider = (props) => {
       city = reverseGeo[0].city;
       county = reverseGeo[0].subregion;
       userState = reverseGeo[0].region;
-      console.log("city", city);
-      console.log("county", county);
+
       if (!reverseGeo[0].city) {
         console.log("Error");
       }
     };
+    // https://agile-badlands-28744.herokuapp.com/
     const fetchData = async () =>
-      await fetch("https://agile-badlands-28744.herokuapp.com/", {
+      await fetch("http://192.168.1.65:4000/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           query: `
-            query($city: String!,$county: String!) {
-              agencies_by_city(city:$city,county:$county) {
+            query($city: String,$county: String,$state: String) {
+              agencies_by_city(city:$city,county:$county,state:$state) {
               agency
               phone
               street  
@@ -80,12 +80,12 @@ export const UserLocContextProvider = (props) => {
               zip
             }
           }`,
-          variables: { city, county },
+          variables: { city, county, state: userState },
         }),
       })
         .then((res) => res.json())
-        .then((res) => console.log(res))
-        .catch((err) => setError(true));
+        .then((res) => setClosestByLoc(res.data))
+        .catch((err) => console.log(err));
     getLoc().then(() => fetchData(city, county));
   }, []);
 

@@ -19,7 +19,7 @@ import {
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { openPhone } from "../services";
-import { DataContext, LoadingContext } from "../context";
+import { DataContext, LoadingContext, UserLocContext } from "../context";
 import Loading from "./Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
@@ -32,7 +32,9 @@ export default function Main({ navigation }) {
   const [city, setCity] = useState(null);
   const [county, setCounty] = useState(null);
   const [state, setState] = useState(null);
-
+  const [closestByLoc, setClosestByLoc] = useContext(UserLocContext);
+  console.log(closestByLoc.agencies_by_city);
+  // need to get closestByLoc to play nicely with closest departments
   useEffect(() => {
     const fetchData = () =>
       fetch("https://agile-badlands-28744.herokuapp.com/", {

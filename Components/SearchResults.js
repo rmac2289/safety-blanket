@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginLeft: "auto",
     marginRight: "auto",
+    paddingBottom: 100,
   },
   icon: {
     color: "rgba(255,255,255,0.9)",

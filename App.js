@@ -1,12 +1,9 @@
 import React from "react";
 import Main from "./Components/Main";
 import States from "./Components/States";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
-import {
-  createStackNavigator,
-  HeaderBackButton,
-} from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import Search from "./Components/Search";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
