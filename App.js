@@ -13,6 +13,8 @@ import {
   UserLocContextProvider,
 } from "./context";
 import Faq from "./Components/Faq";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faAngleDoubleLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Stack = createStackNavigator();
 
@@ -42,6 +44,17 @@ const App = () => {
                     options={
                       (({ route }) => ({ title: route.params.state }),
                       {
+                        headerBackImage: () => (
+                          <FontAwesomeIcon
+                            icon={faAngleDoubleLeft}
+                            color="rgba(255,255,255,0.95)"
+                            size="22x"
+                          />
+                        ),
+                        headerRightContainerStyle: { padding: 12 },
+                        headerBackTitle: " ",
+                        headerLeftContainerStyle: { padding: 12 },
+
                         headerStyle: {
                           backgroundColor: "transparent",
                         },
@@ -58,6 +71,15 @@ const App = () => {
                     name="States"
                     component={States}
                     options={{
+                      headerBackTitle: " ",
+                      headerBackImage: () => (
+                        <FontAwesomeIcon
+                          icon={faAngleDoubleLeft}
+                          color="rgba(255,255,255,0.95)"
+                          size="22x"
+                        />
+                      ),
+                      headerLeftContainerStyle: { padding: 12 },
                       title: "Departments by State",
                       headerStyle: {
                         backgroundColor: "transparent",
@@ -70,6 +92,15 @@ const App = () => {
                     component={Faq}
                     options={{
                       title: "FAQ",
+                      headerBackTitle: " ",
+                      headerBackImage: () => (
+                        <FontAwesomeIcon
+                          icon={faAngleDoubleLeft}
+                          color="rgba(255,255,255,0.95)"
+                          size="22x"
+                        />
+                      ),
+                      headerLeftContainerStyle: { padding: 12 },
                       headerTitleStyle: {
                         fontWeight: "700",
                         fontVariant: ["small-caps"],

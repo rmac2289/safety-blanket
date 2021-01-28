@@ -65,7 +65,7 @@ export const UserLocContextProvider = (props) => {
     };
     // https://agile-badlands-28744.herokuapp.com/
     const fetchData = async () =>
-      await fetch("http://192.168.1.65:4000/", {
+      await fetch("http://192.168.19.44:4000/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -84,7 +84,7 @@ export const UserLocContextProvider = (props) => {
         }),
       })
         .then((res) => res.json())
-        .then((res) => setClosestByLoc(res.data))
+        .then((res) => setClosestByLoc(res))
         .catch((err) => console.log(err));
     getLoc().then(() => fetchData(city, county));
   }, []);

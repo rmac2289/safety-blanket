@@ -10,7 +10,6 @@ import {
 import Error from "./Error";
 import * as Location from "expo-location";
 import ClosestDepts from "./ClosestDepts";
-import { Divider } from "react-native-elements";
 import NavButton from "./NavButton";
 import {
   faCaretDown,
@@ -33,7 +32,7 @@ export default function Main({ navigation }) {
   const [county, setCounty] = useState(null);
   const [state, setState] = useState(null);
   const [closestByLoc, setClosestByLoc] = useContext(UserLocContext);
-  console.log(closestByLoc.agencies_by_city);
+  console.log(closestByLoc);
   // need to get closestByLoc to play nicely with closest departments
   useEffect(() => {
     const fetchData = () =>

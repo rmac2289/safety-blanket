@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import SearchResults from "../Components/SearchResults";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faHome } from "@fortawesome/free-solid-svg-icons";
 import { LoadingContext } from "../context";
 import Loading from "./Loading";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -22,9 +22,25 @@ const Search = () => {
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useContext(LoadingContext);
   const navigation = useNavigation();
+
+  console.log(navigation);
   useEffect(() => {
     setLoading(false);
-    navigation.setOptions({ title: pressedState });
+    navigation.setOptions({
+      title: pressedState,
+      headerTitleStyle: { fontSize: 22 },
+      headerTitleContainerStyle: styles.headerTitleContainer,
+      headerRightContainerStyle: styles.headerRightContainer,
+
+      headerRight: () => (
+        <FontAwesomeIcon
+          color="rgba(255,255,255,0.95)"
+          size="25x"
+          onPress={() => navigation.navigate("Main")}
+          icon={faHome}
+        />
+      ),
+    });
   }, []);
   if (loading) {
     return <Loading initialLoad={false} message="Loading" />;
@@ -63,6 +79,26 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.95)",
     height: Dimensions.get("window").height,
   },
+  headerTitleContainer: {
+    borderColor: "rgb(40,75,220)",
+    borderWidth: 3,
+    width: 60,
+    height: 60,
+    marginTop: 25,
+
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+  },
+  headerRightContainer: {
+    padding: 12,
+    borderRadius: 10,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   searchContainer: {
     display: "flex",
     flexDirection: "row",
