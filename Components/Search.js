@@ -11,8 +11,6 @@ import {
 import SearchResults from "../Components/SearchResults";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch, faHome } from "@fortawesome/free-solid-svg-icons";
-import { LoadingContext } from "../context";
-import Loading from "./Loading";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { StateContext } from "../context";
 import { useNavigation } from "@react-navigation/native";
@@ -20,12 +18,9 @@ import { useNavigation } from "@react-navigation/native";
 const Search = () => {
   const [pressedState] = useContext(StateContext);
   const [searchText, setSearchText] = useState("");
-  const [loading, setLoading] = useContext(LoadingContext);
   const navigation = useNavigation();
 
-  console.log(navigation);
   useEffect(() => {
-    setLoading(false);
     navigation.setOptions({
       title: pressedState,
       headerTitleStyle: { fontSize: 22 },
@@ -35,16 +30,14 @@ const Search = () => {
       headerRight: () => (
         <FontAwesomeIcon
           color="rgba(255,255,255,0.95)"
-          size="25x"
+          size={25}
           onPress={() => navigation.navigate("Main")}
           icon={faHome}
         />
       ),
     });
   }, []);
-  if (loading) {
-    return <Loading initialLoad={false} message="Loading" />;
-  }
+
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.background}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

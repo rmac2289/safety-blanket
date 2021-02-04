@@ -18,47 +18,19 @@ import {
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { openPhone } from "../services";
-import { DataContext, LoadingContext, UserLocContext } from "../context";
 import Loading from "./Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { useQuery } from "@apollo/client";
+import { ALL_DEPTS, DEPTS_BY_CITY } from "./Queries";
 
 export default function Main({ navigation }) {
-  const [loading, setLoading] = useContext(LoadingContext);
-  const [data, setData] = useContext(DataContext);
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [city, setCity] = useState(null);
   const [county, setCounty] = useState(null);
   const [state, setState] = useState(null);
-  const [closestByLoc, setClosestByLoc] = useContext(UserLocContext);
-  console.log(closestByLoc);
-  // need to get closestByLoc to play nicely with closest departments
-  useEffect(() => {
-    const fetchData = () =>
-      fetch("https://agile-badlands-28744.herokuapp.com/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: `
-            query {
-              agencies {
-              agency
-              phone
-              street  
-              city
-              state
-              zip
-            }
-          }`,
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => setData(res.data))
-        .catch((err) => setError(true));
-
-    fetchData();
-  }, []);
+  const { loading, data } = useQuery(ALL_DEPTS);
 
   useEffect(() => {
     (async () => {
@@ -84,14 +56,10 @@ export default function Main({ navigation }) {
 
   const deptButtonPress = () => {
     navigation.navigate("States");
-    setLoading(true);
   };
   const faqButtonPress = () => {
     navigation.navigate("Faq");
   };
-  if (!city) {
-    return <Loading initialLoad={true} message="Finding closest agencies" />;
-  }
   if (error) {
     return <Error />;
   }
@@ -116,7 +84,7 @@ export default function Main({ navigation }) {
         {location ? (
           <Text style={styles.text}>your closest agencies </Text>
         ) : (
-          <Text style={styles.text}>{errorMsg}...</Text>
+          <Text style={styles.text}>Finding nearby agencies...</Text>
         )}
         <FontAwesomeIcon
           icon={faCaretDown}
@@ -126,8 +94,16 @@ export default function Main({ navigation }) {
         />
       </View>
       <View>
-        {city && (
-          <ClosestDepts data={data} state={state} city={city} county={county} />
+        {loading || !city ? (
+          <Loading initialLoad={true} />
+        ) : (
+          <ClosestDepts
+            loading={loading}
+            data={data}
+            state={state}
+            city={city}
+            county={county}
+          />
         )}
       </View>
       <NavButton

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -7,19 +7,25 @@ import {
   faMapMarkerAlt,
   faAddressBook,
 } from "@fortawesome/free-solid-svg-icons";
+import Loading from "./Loading";
 import { alphaSort, openPhone, openMaps, formatPhoneNum } from "../services";
 import { Divider } from "react-native-elements";
-import { DataContext } from "../context";
 import ContactsModal from "./ContactsModal";
+import { useQuery } from "@apollo/client";
+import { DEPTS_BY_STATE } from "./Queries";
 
 const SearchResults = (props) => {
-  const [data] = useContext(DataContext);
   const [currentPhone, setPhone] = useState("");
   const [currentStreet, setStreet] = useState("");
   const [currentCity, setCity] = useState("");
   const [currentZip, setZip] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [currentAgency, setCurrentAgency] = useState("");
+
+  const { loading, error, data } = useQuery(DEPTS_BY_STATE, {
+    variables: { state: `${props.state}` },
+  });
+
   const toggleModal = (current, phone, street, city, zip) => {
     setShowModal(!showModal);
     setCurrentAgency(current);
@@ -28,9 +34,9 @@ const SearchResults = (props) => {
     setCity(city);
     setZip(`${zip}`);
   };
-
-  const agencyData = data.agencies;
-  const agencyList = agencyData
+  if (loading) return <Loading initialLoad={false} message="Loading" />;
+  const allAgencies = [...data.agencies_by_state];
+  const agencyList = allAgencies
     .sort(alphaSort)
     .filter((v) => {
       return (

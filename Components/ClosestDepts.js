@@ -5,6 +5,8 @@ import { faPhone, faDirections } from "@fortawesome/free-solid-svg-icons";
 import { openPhone, openMaps, formatPhoneNum } from "../services";
 import { Divider } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
+import { useQuery } from "@apollo/client";
+import { DEPTS_BY_CITY } from "./Queries";
 
 const ClosestDepts = (props) => {
   const filterAgencies = (v) => {
@@ -15,6 +17,13 @@ const ClosestDepts = (props) => {
         v.state === props.state)
     );
   };
+  const { data } = useQuery(DEPTS_BY_CITY, {
+    variables: {
+      city: props.city,
+      county: props.county,
+      state: props.state,
+    },
+  });
 
   const agencyList = props.data.agencies.filter(filterAgencies);
 
@@ -59,7 +68,6 @@ const ClosestDepts = (props) => {
       </React.Fragment>
     );
   });
-
   return <ScrollView style={styles.scrollView}>{displayedAgencies}</ScrollView>;
 };
 

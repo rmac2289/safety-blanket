@@ -8,18 +8,16 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { LoadingContext, StateContext } from "../context";
+import { StateContext } from "../context";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { Divider } from "react-native-elements";
 const States = () => {
   const [pressedState, setPressedState] = useContext(StateContext);
-  const [loading, setLoading] = useContext(LoadingContext);
   const navigation = useNavigation();
 
   const getDepts = (event) => {
     navigation.navigate("Search");
-    setLoading(true);
 
     setPressedState(
       event._dispatchInstances.memoizedProps.children[0][0].props.value
