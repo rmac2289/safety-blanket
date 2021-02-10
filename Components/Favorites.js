@@ -7,8 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { FavoritesContext } from "../context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FavoritesContext, UserIdContext } from "../context";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faPhone,
@@ -20,37 +19,8 @@ import { Divider } from "react-native-elements";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useContext(FavoritesContext);
-  // Need to fix issue - when adding, works, but when going to fav page throws error //
-  const deleteFav = async (agency, state) => {
-    try {
-      const favsArr = await AsyncStorage.getItem("agencies").then((v) =>
-        JSON.parse(v)
-      );
-      if (favsArr.length === 1) {
-        await AsyncStorage.removeItem("agencies");
-        setFavorites([]);
-        return;
-      }
-      let idx;
-      let beginning;
-      let end;
-      for (let i = 0; i < favsArr.length; i++) {
-        if (favsArr[i].agency === agency && favsArr[i].state === state) {
-          idx = i;
-        }
-      }
-      beginning = favsArr.slice(0, idx);
-      end = favsArr[idx + 1] !== undefined && favsArr.slice(idx + 1);
-      let newFavs = beginning.concat(end);
-      let newFavsJson = JSON.stringify(newFavs);
-      AsyncStorage.setItem("agencies", newFavsJson);
-      setFavorites(newFavs);
-    } catch (e) {
-      console.log(e);
-    }
-
-    console.log("Done.");
-  };
+  const [userId, setUserId] = useContext(UserIdContext);
+  console.log(userId);
   const favList = favorites?.map((v, i) => {
     return (
       <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
@@ -79,10 +49,7 @@ const Favorites = () => {
               <Text style={styles.buttonText}>Open Google Maps</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={styles.deleteButton}
-            onPress={() => deleteFav(v.agency, v.state)}
-          >
+          <TouchableOpacity style={styles.deleteButton} onPress={() => {}}>
             <FontAwesomeIcon
               icon={faTrashAlt}
               color="rgba(255,255,255,0.65)"

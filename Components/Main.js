@@ -7,7 +7,6 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Error from "./utils/Error";
 import * as Location from "expo-location";
 import ClosestDepts from "./ClosestDepts";
@@ -57,17 +56,7 @@ export default function Main({ navigation }) {
       }
     })();
   }, []);
-  useEffect(() => {
-    const getAsyncStorage = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem("agencies");
-        setFavorites(jsonValue != null ? JSON.parse(jsonValue) : null);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    getAsyncStorage();
-  }, [setFavorites]);
+
   const deptButtonPress = () => {
     navigation.navigate("States");
   };
