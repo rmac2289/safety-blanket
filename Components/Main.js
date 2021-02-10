@@ -8,21 +8,22 @@ import {
   TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Error from "./Error";
+import Error from "./utils/Error";
 import * as Location from "expo-location";
 import ClosestDepts from "./ClosestDepts";
-import NavButton from "./NavButton";
+import NavButton from "./utils/NavButton";
 import {
   faCaretDown,
+  faHeart,
   faListUl,
   faMapMarkedAlt,
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { openPhone } from "../services";
-import Loading from "./Loading";
+import Loading from "./utils/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useQuery } from "@apollo/client";
-import { ALL_DEPTS, DEPTS_BY_CITY } from "./Queries";
+import { ALL_DEPTS, DEPTS_BY_CITY } from "./graphql/Queries";
 import { FavoritesContext } from "../context";
 
 export default function Main({ navigation }) {
@@ -34,7 +35,7 @@ export default function Main({ navigation }) {
   const [state, setState] = useState(null);
   const { loading, data } = useQuery(ALL_DEPTS);
   const [favorites, setFavorites] = useContext(FavoritesContext);
-  console.log(favorites);
+
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestPermissionsAsync();
@@ -72,6 +73,9 @@ export default function Main({ navigation }) {
   };
   const faqButtonPress = () => {
     navigation.navigate("Faq");
+  };
+  const favButtonPress = () => {
+    navigation.navigate("Favorites");
   };
   if (error) {
     return <Error />;
@@ -129,6 +133,13 @@ export default function Main({ navigation }) {
           buttonPress={faqButtonPress}
           icon={faQuestionCircle}
           title="911 FAQ"
+        />
+      </View>
+      <View style={styles.faq}>
+        <NavButton
+          buttonPress={favButtonPress}
+          icon={faHeart}
+          title="Favorites"
         />
       </View>
     </ScrollView>

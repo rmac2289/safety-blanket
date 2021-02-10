@@ -1,8 +1,204 @@
-import React from "react";
-import { View } from "react-native";
+import React, { useContext } from "react";
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import { FavoritesContext } from "../context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import {
+  faPhone,
+  faMapMarkerAlt,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { alphaSort, openPhone, openMaps, formatPhoneNum } from "../services";
+import { Divider } from "react-native-elements";
 
 const Favorites = () => {
-  return <View></View>;
+  const [favorites, setFavorites] = useContext(FavoritesContext);
+  // Need to fix issue - when adding, works, but when going to fav page throws error //
+  const deleteFav = async (agency, state) => {
+    try {
+      const favsArr = await AsyncStorage.getItem("agencies").then((v) =>
+        JSON.parse(v)
+      );
+      if (favsArr.length === 1) {
+        await AsyncStorage.removeItem("agencies");
+        setFavorites([]);
+        return;
+      }
+      let idx;
+      let beginning;
+      let end;
+      for (let i = 0; i < favsArr.length; i++) {
+        if (favsArr[i].agency === agency && favsArr[i].state === state) {
+          idx = i;
+        }
+      }
+      beginning = favsArr.slice(0, idx);
+      end = favsArr[idx + 1] !== undefined && favsArr.slice(idx + 1);
+      let newFavs = beginning.concat(end);
+      let newFavsJson = JSON.stringify(newFavs);
+      AsyncStorage.setItem("agencies", newFavsJson);
+      setFavorites(newFavs);
+    } catch (e) {
+      console.log(e);
+    }
+
+    console.log("Done.");
+  };
+  const favList = favorites?.map((v, i) => {
+    return (
+      <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
+        <View style={styles.container}>
+          <Text style={styles.firstLetter}>
+            {v.agency.slice(0, 1)}
+            <Text style={styles.text}>{v.agency.slice(1)}</Text>
+          </Text>
+
+          <View style={styles.buttonBox}>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={styles.button}
+              onPress={() => openPhone(v.phone)}
+            >
+              <FontAwesomeIcon style={styles.icon} icon={faPhone} />
+
+              <Text style={styles.buttonText}>{formatPhoneNum(v.phone)}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
+              style={styles.mapsButton}
+            >
+              <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
+              <Text style={styles.buttonText}>Open Google Maps</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={() => deleteFav(v.agency, v.state)}
+          >
+            <FontAwesomeIcon
+              icon={faTrashAlt}
+              color="rgba(255,255,255,0.65)"
+              size={22}
+            />
+          </TouchableOpacity>
+        </View>
+        <Divider
+          style={{ height: 0.5, backgroundColor: "rgba(255,255,255,0.3)" }}
+        />
+      </React.Fragment>
+    );
+  });
+  return <ScrollView style={styles.background}>{favList}</ScrollView>;
 };
+
+const styles = StyleSheet.create({
+  background: {
+    paddingTop: 15,
+    backgroundColor: "rgba(0,0,0,0.95)",
+    height: Dimensions.get("window").height,
+  },
+  firstLetter: {
+    color: "rgba(255,255,255,0.95)",
+    fontSize: 28,
+    fontWeight: "800",
+    marginBottom: 10,
+  },
+  agencyName: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  deleteButton: {
+    position: "absolute",
+    top: -5,
+    right: 0,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  container: {
+    width: "95%",
+    marginBottom: 10,
+    marginTop: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
+    paddingTop: 5,
+    paddingBottom: 5,
+    position: "relative",
+  },
+  buttonBox: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    shadowColor: "rgb(40,75,220)",
+    shadowOffset: { height: 1, width: 1 },
+    shadowRadius: 0.75,
+    shadowOpacity: 1,
+  },
+  scrollContainer: {
+    width: "100%",
+    marginLeft: "auto",
+    marginRight: "auto",
+    paddingBottom: 100,
+  },
+  icon: {
+    color: "rgba(255,255,255,0.9)",
+    fontSize: 32,
+    padding: 5,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "rgba(255,255,255,0.9)",
+  },
+  buttonText: {
+    fontSize: 16,
+    padding: 5,
+    color: "rgba(255,255,255,0.9)",
+  },
+  button: {
+    backgroundColor: "rgba(40,75,200,0.2)",
+    borderWidth: 2,
+    borderColor: "rgba(40, 75, 200, 0.8)",
+    flex: 1,
+    height: 55,
+    display: "flex",
+    flexDirection: "row",
+    borderTopLeftRadius: 7,
+    borderBottomLeftRadius: 7,
+    borderBottomRightRadius: 0,
+    borderTopRightRadius: 0,
+    borderRightWidth: 0,
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+  mapsButton: {
+    backgroundColor: "rgba(40,75,200,0.8)",
+    flex: 1,
+    height: 55,
+    borderWidth: 2,
+    borderColor: "rgba(40, 75, 200, 0.2)",
+    width: "100%",
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 7,
+    borderTopRightRadius: 7,
+    borderLeftWidth: 4,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+});
 
 export default Favorites;

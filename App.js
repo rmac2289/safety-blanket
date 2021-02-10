@@ -1,6 +1,7 @@
 import React from "react";
 import Main from "./Components/Main";
 import States from "./Components/States";
+import Favorites from "./Components/Favorites";
 import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -90,6 +91,31 @@ const App = () => {
                   component={Faq}
                   options={{
                     title: "FAQ",
+                    headerBackTitle: " ",
+                    headerBackImage: () => (
+                      <FontAwesomeIcon
+                        icon={faAngleDoubleLeft}
+                        color="rgba(255,255,255,0.95)"
+                        size={22}
+                      />
+                    ),
+                    headerLeftContainerStyle: { padding: 12 },
+                    headerTitleStyle: {
+                      fontWeight: "700",
+                      fontVariant: ["small-caps"],
+                    },
+                    headerStyle: {
+                      backgroundColor: "transparent",
+                      borderBottomColor: "white",
+                    },
+                    headerTintColor: "#fff",
+                  }}
+                />
+                <Stack.Screen
+                  name="Favorites"
+                  component={Favorites}
+                  options={{
+                    title: "Favorites",
                     headerBackTitle: " ",
                     headerBackImage: () => (
                       <FontAwesomeIcon

@@ -6,7 +6,7 @@ import { openPhone, openMaps, formatPhoneNum } from "../services";
 import { Divider } from "react-native-elements";
 import { TouchableOpacity } from "react-native";
 import { useQuery } from "@apollo/client";
-import { DEPTS_BY_CITY } from "./Queries";
+import { DEPTS_BY_CITY } from "./graphql/Queries";
 
 const ClosestDepts = (props) => {
   const filterAgencies = (v) => {

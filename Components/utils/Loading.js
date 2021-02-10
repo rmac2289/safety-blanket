@@ -24,8 +24,8 @@ const Loading = ({ initialLoad }) => {
           }}
           source={
             initialLoad
-              ? require("../assets/gpsAnim.json")
-              : require("../assets/loadingAnim.json")
+              ? require("../../assets/gpsAnim.json")
+              : require("../../assets/loadingAnim.json")
           }
           autoPlay
           loop
