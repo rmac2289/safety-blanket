@@ -23,3 +23,15 @@ export const StateContextProvider = (props) => {
     </StateContext.Provider>
   );
 };
+
+export const FavoritesContext = createContext();
+
+export const FavoritesContextProvider = (props) => {
+  const [favorites, setFavorites] = useState([]);
+
+  return (
+    <FavoritesContext.Provider value={[favorites, setFavorites]}>
+      {props.children}
+    </FavoritesContext.Provider>
+  );
+};

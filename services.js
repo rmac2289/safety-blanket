@@ -1,4 +1,6 @@
 import * as Linking from "expo-linking";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FavoritesContext } from "./context";
 
 export const alphaSort = (a, b) => {
   const nameA = a.agency.toUpperCase();
@@ -124,3 +126,33 @@ export const usStates = [
   { abbr: "WI", stateName: "Wisconsin" },
   { abbr: "WY", stateName: "Wyoming" },
 ];
+export const storeData = async (value) => {
+  const [favorites, setFavorites] = useContext(FavoritesContext);
+  try {
+    const jsonValue = JSON.stringify(value);
+    const arr = await AsyncStorage.getItem("agencies").then((v) =>
+      JSON.parse(v)
+    );
+
+    if (arr === null) {
+      await AsyncStorage.setItem("agencies", `[${jsonValue}]`);
+    }
+    for (let dept in arr) {
+      if (
+        arr[dept].agency === value.agency &&
+        arr[dept].state === value.state
+      ) {
+        throw new Error("Already in favorites!");
+      }
+    }
+    setFavorites(...favorites, value);
+    if (arr !== null) {
+      arr.push(value);
+      let arrJson = JSON.stringify(arr);
+      await AsyncStorage.setItem("agencies", arrJson);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  AsyncStorage.getItem("agencies").then((v) => console.log(v));
+};

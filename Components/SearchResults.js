@@ -6,6 +6,7 @@ import {
   faPhone,
   faMapMarkerAlt,
   faAddressBook,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import Loading from "./Loading";
 import { alphaSort, openPhone, openMaps, formatPhoneNum } from "../services";
@@ -13,6 +14,7 @@ import { Divider } from "react-native-elements";
 import ContactsModal from "./ContactsModal";
 import { useQuery } from "@apollo/client";
 import { DEPTS_BY_STATE } from "./Queries";
+import { storeData } from "../services";
 
 const SearchResults = (props) => {
   const [currentPhone, setPhone] = useState("");
@@ -34,6 +36,7 @@ const SearchResults = (props) => {
     setCity(city);
     setZip(`${zip}`);
   };
+
   if (loading) return <Loading initialLoad={false} message="Loading" />;
   const allAgencies = [...data.agencies_by_state];
   const agencyList = allAgencies
@@ -80,6 +83,24 @@ const SearchResults = (props) => {
             >
               <FontAwesomeIcon
                 icon={faAddressBook}
+                color="rgba(255,255,255,0.95)"
+                size={22}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                storeData({
+                  agency: v.agency,
+                  phone: v.phone,
+                  street: v.street,
+                  city: v.city,
+                  state: v.state,
+                  zip: v.zip,
+                })
+              }
+            >
+              <FontAwesomeIcon
+                icon={faPlus}
                 color="rgba(255,255,255,0.95)"
                 size={22}
               />
