@@ -16,12 +16,21 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { alphaSort, openPhone, openMaps, formatPhoneNum } from "../services";
 import { Divider } from "react-native-elements";
+import { GET_FAVORITES } from "./graphql/Queries";
+import { useQuery } from "@apollo/client";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useContext(FavoritesContext);
   const [userId, setUserId] = useContext(UserIdContext);
-  console.log(userId);
-  const favList = favorites?.map((v, i) => {
+  console.log("userId", userId);
+  const { loading, data } = useQuery(GET_FAVORITES, {
+    variables: {
+      userId: userId,
+    },
+  });
+
+  console.log("data", data);
+  const favList = data?.favorites.map((v, i) => {
     return (
       <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
         <View style={styles.container}>

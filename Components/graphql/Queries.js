@@ -38,3 +38,16 @@ export const DEPTS_BY_CITY = gql`
     }
   }
 `;
+
+export const GET_FAVORITES = gql`
+  query favorites($userId: String!) {
+    favorites(userId: $userId) {
+      agency
+      phone
+      street
+      city
+      state
+      zip
+    }
+  }
+`;

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Random from "expo-random";
 
@@ -46,15 +46,14 @@ export const UserIdContextProvider = (props) => {
         setUserId(uniqueId);
         return await AsyncStorage.setItem("user", uniqueId);
       } else {
-        console.log("user exists");
+        let existingUser = await AsyncStorage.getItem("user");
+        setUserId(JSON.parse(existingUser));
       }
     } catch (e) {
       console.log(e);
     }
   };
   getUniqueId();
-  AsyncStorage.getItem("user").then((v) => console.log("storageUser", v));
-  console.log("state", userId);
   return (
     <UserIdContext.Provider value={[userId, setUserId]}>
       {props.children}
