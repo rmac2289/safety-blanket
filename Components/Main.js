@@ -119,16 +119,16 @@ export default function Main({ navigation }) {
       />
       <View style={styles.faq}>
         <NavButton
-          buttonPress={faqButtonPress}
-          icon={faQuestionCircle}
-          title="911 FAQ"
+          buttonPress={favButtonPress}
+          icon={faHeart}
+          title="Favorites"
         />
       </View>
       <View style={styles.faq}>
         <NavButton
-          buttonPress={favButtonPress}
-          icon={faHeart}
-          title="Favorites"
+          buttonPress={faqButtonPress}
+          icon={faQuestionCircle}
+          title="911 FAQ"
         />
       </View>
     </ScrollView>
@@ -144,7 +144,6 @@ const styles = StyleSheet.create({
   faq: {
     width: "100%",
     borderRadius: 20,
-    marginBottom: 20,
   },
   nine11: {
     backgroundColor: "transparent",

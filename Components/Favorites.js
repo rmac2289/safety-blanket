@@ -1,27 +1,29 @@
-import React, { useContext } from "react";
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import { FavoritesContext, UserIdContext } from "../context";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faPhone,
-  faMapMarkerAlt,
-  faTrashAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import { alphaSort, openPhone, openMaps, formatPhoneNum } from "../services";
+import React, { useContext, useState } from "react";
+import { ScrollView, View, StyleSheet, Dimensions } from "react-native";
+import { UserIdContext } from "../context";
 import { Divider } from "react-native-elements";
 import { GET_FAVORITES } from "./graphql/Queries";
 import { useQuery } from "@apollo/client";
-
+import CallOrMap from "./utils/CallOrMap";
+import AgencyHeading from "./utils/AgencyHeading";
+import ContactsModal from "./utils/ContactsModal";
 const Favorites = () => {
-  const [favorites, setFavorites] = useContext(FavoritesContext);
+  const [currentPhone, setPhone] = useState("");
+  const [currentStreet, setStreet] = useState("");
+  const [currentCity, setCity] = useState("");
+  const [currentZip, setZip] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [currentAgency, setCurrentAgency] = useState("");
   const [userId, setUserId] = useContext(UserIdContext);
+
+  const toggleModal = (current, phone, street, city, zip) => {
+    setShowModal(!showModal);
+    setCurrentAgency(current);
+    setPhone(phone);
+    setStreet(street);
+    setCity(city);
+    setZip(`${zip}`);
+  };
   console.log("userId", userId);
   const { loading, data } = useQuery(GET_FAVORITES, {
     variables: {
@@ -34,37 +36,22 @@ const Favorites = () => {
     return (
       <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
         <View style={styles.container}>
-          <Text style={styles.firstLetter}>
-            {v.agency.slice(0, 1)}
-            <Text style={styles.text}>{v.agency.slice(1)}</Text>
-          </Text>
-
-          <View style={styles.buttonBox}>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={styles.button}
-              onPress={() => openPhone(v.phone)}
-            >
-              <FontAwesomeIcon style={styles.icon} icon={faPhone} />
-
-              <Text style={styles.buttonText}>{formatPhoneNum(v.phone)}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
-              style={styles.mapsButton}
-            >
-              <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
-              <Text style={styles.buttonText}>Open Google Maps</Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity style={styles.deleteButton} onPress={() => {}}>
-            <FontAwesomeIcon
-              icon={faTrashAlt}
-              color="rgba(255,255,255,0.65)"
-              size={22}
-            />
-          </TouchableOpacity>
+          <AgencyHeading
+            agency={v.agency}
+            phone={v.phone}
+            street={v.street}
+            city={v.city}
+            zip={v.zip}
+            toggleModal={toggleModal}
+            favoritesPage={true}
+          />
+          <CallOrMap
+            phone={v.phone}
+            street={v.street}
+            city={v.city}
+            state={v.state}
+            zip={v.zip}
+          />
         </View>
         <Divider
           style={{ height: 0.5, backgroundColor: "rgba(255,255,255,0.3)" }}
@@ -72,7 +59,22 @@ const Favorites = () => {
       </React.Fragment>
     );
   });
-  return <ScrollView style={styles.background}>{favList}</ScrollView>;
+  return (
+    <ScrollView style={styles.background}>
+      {showModal && (
+        <ContactsModal
+          agency={currentAgency}
+          showModal={showModal}
+          toggleModal={toggleModal}
+          currentPhone={currentPhone}
+          currentStreet={currentStreet}
+          currentCity={currentCity}
+          currentZip={currentZip}
+        />
+      )}
+      {favList}
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({

@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPhone, faDirections } from "@fortawesome/free-solid-svg-icons";
-import { openPhone, openMaps, formatPhoneNum } from "../services";
+import CallOrMap from "./utils/CallOrMap";
 import { Divider } from "react-native-elements";
-import { TouchableOpacity } from "react-native";
 import { useQuery } from "@apollo/client";
 import { DEPTS_BY_CITY } from "./graphql/Queries";
+import AgencyHeading from "./utils/AgencyHeading";
+import ContactsModal from "./utils/ContactsModal";
 
 const ClosestDepts = (props) => {
+  const [currentPhone, setPhone] = useState("");
+  const [currentStreet, setStreet] = useState("");
+  const [currentCity, setCity] = useState("");
+  const [currentZip, setZip] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [currentAgency, setCurrentAgency] = useState("");
+
+  const toggleModal = (current, phone, street, city, zip) => {
+    setShowModal(!showModal);
+    setCurrentAgency(current);
+    setPhone(phone);
+    setStreet(street);
+    setCity(city);
+    setZip(`${zip}`);
+  };
   const filterAgencies = (v) => {
     return (
       (v.city === props.city && v.state === props.state) ||
@@ -17,6 +31,8 @@ const ClosestDepts = (props) => {
         v.state === props.state)
     );
   };
+
+  // ***** get this working to eliminate filtering ******
   const { data } = useQuery(DEPTS_BY_CITY, {
     variables: {
       city: props.city,
@@ -24,6 +40,7 @@ const ClosestDepts = (props) => {
       state: props.state,
     },
   });
+  console.log(data);
 
   const agencyList = props.data.agencies.filter(filterAgencies);
 
@@ -36,39 +53,43 @@ const ClosestDepts = (props) => {
             (v.agency.includes("Highway") && (
               <Text style={styles.hwyText}>On a state highway?</Text>
             ))}
-          <Text style={styles.text}>{v.agency}</Text>
-          <View style={styles.buttonBox}>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={styles.button}
-              onPress={() => openPhone(v.phone)}
-            >
-              <FontAwesomeIcon style={styles.icon} icon={faPhone} size={20} />
-              <Text style={styles.buttonText}>
-                {v.agency === "Oregon State Police"
-                  ? "*677"
-                  : formatPhoneNum(v.phone)}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() => openMaps(v.street, v.city, v.state, v.zip)}
-              style={styles.mapsButton}
-            >
-              <FontAwesomeIcon
-                style={styles.icon}
-                icon={faDirections}
-                size={22}
-              />
-              <Text style={styles.buttonText}>Open Google Maps</Text>
-            </TouchableOpacity>
-          </View>
+          <AgencyHeading
+            agency={v.agency}
+            phone={v.phone}
+            street={v.street}
+            city={v.city}
+            state={v.state}
+            zip={v.zip}
+            toggleModal={toggleModal}
+          />
+          <CallOrMap
+            phone={v.phone}
+            street={v.street}
+            city={v.city}
+            state={v.state}
+            zip={v.zip}
+          />
         </View>
         <Divider style={styles.divider} />
       </React.Fragment>
     );
   });
-  return <ScrollView style={styles.scrollView}>{displayedAgencies}</ScrollView>;
+  return (
+    <ScrollView style={styles.scrollView}>
+      {showModal && (
+        <ContactsModal
+          agency={currentAgency}
+          showModal={showModal}
+          toggleModal={toggleModal}
+          currentPhone={currentPhone}
+          currentStreet={currentStreet}
+          currentCity={currentCity}
+          currentZip={currentZip}
+        />
+      )}
+      {displayedAgencies}
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -80,22 +101,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
   },
-  buttonBox: {
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    shadowColor: "rgb(40,75,220)",
-    shadowOffset: { height: 1, width: -1 },
-    shadowRadius: 0.75,
-    shadowOpacity: 1,
-  },
+
   scrollView: {
     marginBottom: 20,
-  },
-  icon: {
-    color: "rgba(255,255,255,0.9)",
-    fontSize: 32,
-    padding: 5,
   },
   hwyText: {
     fontSize: 24,
@@ -114,44 +122,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginBottom: 10,
     color: "rgba(255,255,255,0.9)",
-  },
-  buttonText: {
-    fontSize: 16,
-    padding: 5,
-    color: "rgba(255,255,255,0.9)",
-  },
-  button: {
-    backgroundColor: "rgba(40,75,200,0.2)",
-    borderWidth: 2,
-    borderColor: "rgba(40, 75, 200, 0.9)",
-    borderRightWidth: 0,
-    flex: 1,
-    height: 55,
-    display: "flex",
-    flexDirection: "row",
-    borderTopLeftRadius: 7,
-    borderBottomLeftRadius: 7,
-    borderBottomRightRadius: 0,
-    borderTopRightRadius: 0,
-    alignItems: "center",
-    justifyContent: "space-evenly",
-  },
-  mapsButton: {
-    backgroundColor: "rgba(40,75,200,0.9)",
-    flex: 1,
-    height: 55,
-    borderWidth: 2,
-    borderColor: "rgba(40, 75, 200, 0.2)",
-    width: "100%",
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 7,
-    borderTopRightRadius: 7,
-    borderLeftWidth: 4,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
   },
 });
 
