@@ -33,14 +33,14 @@ const ClosestDepts = (props) => {
   };
 
   // ***** get this working to eliminate filtering ******
-  const { data } = useQuery(DEPTS_BY_CITY, {
-    variables: {
-      city: props.city,
-      county: props.county,
-      state: props.state,
-    },
-  });
-  console.log(data);
+  // const { data } = useQuery(DEPTS_BY_CITY, {
+  //   variables: {
+  //     city: props.city,
+  //     county: props.county,
+  //     state: props.state,
+  //   },
+  // });
+  // console.log(data);
 
   const agencyList = props.data.agencies.filter(filterAgencies);
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -6,6 +6,9 @@ import {
   faHeart,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { useMutation } from "@apollo/client";
+import { ADD_FAVORITE, DELETE_FAVORITE } from "../graphql/Mutations";
+import { UserIdContext } from "../../context";
 
 const AgencyHeading = ({
   agency,
@@ -17,6 +20,10 @@ const AgencyHeading = ({
   favoritesPage,
   toggleModal,
 }) => {
+  const [userId] = useContext(UserIdContext);
+  const [addFavorite] = useMutation(ADD_FAVORITE);
+  const [deleteFavorite] = useMutation(DELETE_FAVORITE);
+
   return (
     <View style={styles.titleContainer}>
       <Text style={styles.firstLetter}>
@@ -39,20 +46,34 @@ const AgencyHeading = ({
           <TouchableOpacity
             style={styles.contactsButton}
             onPress={() =>
-              storeData({
-                agency,
-                phone,
-                street,
-                city,
-                state,
-                zip,
-              })
+              addFavorite(
+                {
+                  variables: {
+                    userId: userId,
+                    favorites: { agency, phone, street, city, state, zip },
+                  },
+                },
+                console.log(state)
+              )
             }
           >
             <FontAwesomeIcon icon={faHeart} color="rgb(40,75,220)" size={28} />
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity style={styles.contactsButton} onPress={() => {}}>
+          <TouchableOpacity
+            style={styles.contactsButton}
+            onPress={() =>
+              deleteFavorite(
+                {
+                  variables: {
+                    userId: userId,
+                    favorite: { agency, state },
+                  },
+                },
+                console.log(agency)
+              )
+            }
+          >
             <FontAwesomeIcon
               icon={faTrashAlt}
               color="rgb(40,75,220)"

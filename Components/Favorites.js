@@ -7,6 +7,7 @@ import { useQuery } from "@apollo/client";
 import CallOrMap from "./utils/CallOrMap";
 import AgencyHeading from "./utils/AgencyHeading";
 import ContactsModal from "./utils/ContactsModal";
+
 const Favorites = () => {
   const [currentPhone, setPhone] = useState("");
   const [currentStreet, setStreet] = useState("");
@@ -24,14 +25,12 @@ const Favorites = () => {
     setCity(city);
     setZip(`${zip}`);
   };
-  console.log("userId", userId);
   const { loading, data } = useQuery(GET_FAVORITES, {
     variables: {
       userId: userId,
     },
   });
 
-  console.log("data", data);
   const favList = data?.favorites.map((v, i) => {
     return (
       <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
@@ -41,6 +40,7 @@ const Favorites = () => {
             phone={v.phone}
             street={v.street}
             city={v.city}
+            state={v.state}
             zip={v.zip}
             toggleModal={toggleModal}
             favoritesPage={true}
