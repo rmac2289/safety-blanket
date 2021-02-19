@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useMutation } from "@apollo/client";
 import { ADD_FAVORITE, DELETE_FAVORITE } from "../graphql/Mutations";
+import { GET_FAVORITES } from "../graphql/Queries";
 import { UserIdContext } from "../../context";
 
 const AgencyHeading = ({
@@ -21,8 +22,13 @@ const AgencyHeading = ({
   toggleModal,
 }) => {
   const [userId] = useContext(UserIdContext);
-  const [addFavorite] = useMutation(ADD_FAVORITE);
-  const [deleteFavorite] = useMutation(DELETE_FAVORITE);
+
+  const [deleteFavorite] = useMutation(DELETE_FAVORITE, {
+    refetchQueries: [{ query: GET_FAVORITES, variables: { userId: userId } }],
+  });
+  const [addFavorite] = useMutation(ADD_FAVORITE, {
+    refetchQueries: [{ query: GET_FAVORITES, variables: { userId: userId } }],
+  });
 
   return (
     <View style={styles.titleContainer}>
@@ -46,15 +52,12 @@ const AgencyHeading = ({
           <TouchableOpacity
             style={styles.contactsButton}
             onPress={() =>
-              addFavorite(
-                {
-                  variables: {
-                    userId: userId,
-                    favorites: { agency, phone, street, city, state, zip },
-                  },
+              addFavorite({
+                variables: {
+                  userId: userId,
+                  favorites: { agency, phone, street, city, state, zip },
                 },
-                console.log(state)
-              )
+              })
             }
           >
             <FontAwesomeIcon icon={faHeart} color="rgb(40,75,220)" size={28} />
@@ -63,15 +66,12 @@ const AgencyHeading = ({
           <TouchableOpacity
             style={styles.contactsButton}
             onPress={() =>
-              deleteFavorite(
-                {
-                  variables: {
-                    userId: userId,
-                    favorite: { agency, state },
-                  },
+              deleteFavorite({
+                variables: {
+                  userId: userId,
+                  favorite: { agency, state },
                 },
-                console.log(agency)
-              )
+              })
             }
           >
             <FontAwesomeIcon

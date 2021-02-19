@@ -30,7 +30,7 @@ const Favorites = () => {
       userId: userId,
     },
   });
-
+  console.log(data);
   const favList = data?.favorites.map((v, i) => {
     return (
       <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
