@@ -11,6 +11,17 @@ export const alphaSort = (a, b) => {
   }
   return comparison;
 };
+export const alphaSortFav = (a, b) => {
+  const nameA = a.agency.toUpperCase();
+  const nameB = b.agency.toUpperCase();
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
+};
 
 export const openMaps = (street, city, state, zip) => {
   street = street.split(" ").join("+");

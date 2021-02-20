@@ -14,14 +14,20 @@ const ClosestDepts = (props) => {
   const [currentZip, setZip] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [currentAgency, setCurrentAgency] = useState("");
+  const [buttonPressed, setButtonPressed] = useState("");
+  const [state, setState] = useState("");
 
-  const toggleModal = (current, phone, street, city, zip) => {
+  const toggleModal = (current, phone, street, city, zip, state, string) => {
     setShowModal(!showModal);
     setCurrentAgency(current);
     setPhone(phone);
     setStreet(street);
     setCity(city);
+    setState(state);
     setZip(`${zip}`);
+    string === "favorites"
+      ? setButtonPressed("favorites")
+      : setButtonPressed("contacts");
   };
   const filterAgencies = (v) => {
     return (
@@ -78,7 +84,9 @@ const ClosestDepts = (props) => {
     <ScrollView style={styles.scrollView}>
       {showModal && (
         <ContactsModal
+          buttonPressed={buttonPressed}
           agency={currentAgency}
+          state={state}
           showModal={showModal}
           toggleModal={toggleModal}
           currentPhone={currentPhone}

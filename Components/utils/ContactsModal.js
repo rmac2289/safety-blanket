@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   TouchableHighlight,
   Modal,
@@ -7,6 +7,10 @@ import {
   StyleSheet,
 } from "react-native";
 import * as Contacts from "expo-contacts";
+import { useMutation } from "@apollo/client";
+import { ADD_FAVORITE } from "../graphql/Mutations";
+import { GET_FAVORITES } from "../graphql/Queries";
+import { UserIdContext } from "../../context";
 
 export const ContactsModal = ({
   showModal,
@@ -16,8 +20,12 @@ export const ContactsModal = ({
   currentStreet,
   currentCity,
   currentZip,
+  buttonPressed,
+  state,
 }) => {
-  const [contactAdded, setContactAdded] = useState(false);
+  const [added, setAdded] = useState(false);
+  const [userId] = useContext(UserIdContext);
+
   const addToContacts = async () => {
     const { status } = await Contacts.requestPermissionsAsync();
     if (status === "granted") {
@@ -33,10 +41,14 @@ export const ContactsModal = ({
         ],
       };
       await Contacts.addContactAsync(contact)
-        .then(() => setContactAdded(true))
+        .then(() => setAdded(true))
         .catch((err) => console.log(err));
     }
   };
+  const [addFavorite] = useMutation(ADD_FAVORITE, {
+    refetchQueries: [{ query: GET_FAVORITES, variables: { userId: userId } }],
+  });
+
   return (
     <Modal
       animationType="slide"
@@ -48,18 +60,38 @@ export const ContactsModal = ({
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          {!contactAdded ? (
+          {!added ? (
             <>
               <Text style={styles.modalText}>
-                Add <Text style={{ color: "rgb(40,75,220)" }}>{agency}</Text> to
-                contacts?
+                Add <Text style={{ color: "rgb(40,75,220)" }}>{agency}</Text> to{" "}
+                <Text style={{ fontWeight: "700" }}>{buttonPressed}</Text>?
               </Text>
               <TouchableHighlight
                 style={{
                   ...styles.openButton,
                   backgroundColor: "rgb(40,75,220)",
                 }}
-                onPress={addToContacts}
+                onPress={
+                  buttonPressed === "contacts"
+                    ? addToContacts
+                    : () =>
+                        addFavorite(
+                          {
+                            variables: {
+                              userId,
+                              favorites: {
+                                agency,
+                                phone: currentPhone,
+                                street: currentStreet,
+                                city: currentCity,
+                                state,
+                                zip: parseInt(currentZip),
+                              },
+                            },
+                          },
+                          setAdded(!added)
+                        )
+                }
               >
                 <Text style={styles.textStyle}>Add</Text>
               </TouchableHighlight>

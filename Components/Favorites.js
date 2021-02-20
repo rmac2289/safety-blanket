@@ -7,6 +7,7 @@ import { useQuery } from "@apollo/client";
 import CallOrMap from "./utils/CallOrMap";
 import AgencyHeading from "./utils/AgencyHeading";
 import ContactsModal from "./utils/ContactsModal";
+import { alphaSort } from "../services";
 
 const Favorites = () => {
   const [currentPhone, setPhone] = useState("");
@@ -30,35 +31,38 @@ const Favorites = () => {
       userId: userId,
     },
   });
-  console.log(data);
-  const favList = data?.favorites.map((v, i) => {
-    return (
-      <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
-        <View style={styles.container}>
-          <AgencyHeading
-            agency={v.agency}
-            phone={v.phone}
-            street={v.street}
-            city={v.city}
-            state={v.state}
-            zip={v.zip}
-            toggleModal={toggleModal}
-            favoritesPage={true}
+
+  const favList = data?.favorites
+    .slice()
+    .sort(alphaSort)
+    .map((v, i) => {
+      return (
+        <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
+          <View style={styles.container}>
+            <AgencyHeading
+              agency={v.agency}
+              phone={v.phone}
+              street={v.street}
+              city={v.city}
+              state={v.state}
+              zip={v.zip}
+              toggleModal={toggleModal}
+              favoritesPage={true}
+            />
+            <CallOrMap
+              phone={v.phone}
+              street={v.street}
+              city={v.city}
+              state={v.state}
+              zip={v.zip}
+            />
+          </View>
+          <Divider
+            style={{ height: 0.5, backgroundColor: "rgba(255,255,255,0.3)" }}
           />
-          <CallOrMap
-            phone={v.phone}
-            street={v.street}
-            city={v.city}
-            state={v.state}
-            zip={v.zip}
-          />
-        </View>
-        <Divider
-          style={{ height: 0.5, backgroundColor: "rgba(255,255,255,0.3)" }}
-        />
-      </React.Fragment>
-    );
-  });
+        </React.Fragment>
+      );
+    });
   return (
     <ScrollView style={styles.background}>
       {showModal && (

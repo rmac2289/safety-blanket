@@ -7,7 +7,7 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { useMutation } from "@apollo/client";
-import { ADD_FAVORITE, DELETE_FAVORITE } from "../graphql/Mutations";
+import { DELETE_FAVORITE } from "../graphql/Mutations";
 import { GET_FAVORITES } from "../graphql/Queries";
 import { UserIdContext } from "../../context";
 
@@ -26,9 +26,6 @@ const AgencyHeading = ({
   const [deleteFavorite] = useMutation(DELETE_FAVORITE, {
     refetchQueries: [{ query: GET_FAVORITES, variables: { userId: userId } }],
   });
-  const [addFavorite] = useMutation(ADD_FAVORITE, {
-    refetchQueries: [{ query: GET_FAVORITES, variables: { userId: userId } }],
-  });
 
   return (
     <View style={styles.titleContainer}>
@@ -39,7 +36,9 @@ const AgencyHeading = ({
       <View style={styles.favAndContacts}>
         <TouchableOpacity
           style={styles.contactsButton}
-          onPress={() => toggleModal(agency, phone, street, city, zip)}
+          onPress={() =>
+            toggleModal(agency, phone, street, city, zip, state, "contacts")
+          }
         >
           <FontAwesomeIcon
             icon={faAddressBook}
@@ -52,12 +51,7 @@ const AgencyHeading = ({
           <TouchableOpacity
             style={styles.contactsButton}
             onPress={() =>
-              addFavorite({
-                variables: {
-                  userId: userId,
-                  favorites: { agency, phone, street, city, state, zip },
-                },
-              })
+              toggleModal(agency, phone, street, city, zip, state, "favorites")
             }
           >
             <FontAwesomeIcon icon={faHeart} color="rgb(40,75,220)" size={28} />

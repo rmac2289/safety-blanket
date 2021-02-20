@@ -18,18 +18,24 @@ const SearchResults = (props) => {
   const [currentZip, setZip] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [currentAgency, setCurrentAgency] = useState("");
+  const [buttonPressed, setButtonPressed] = useState("");
+  const [state, setState] = useState("");
 
   const { loading, error, data } = useQuery(DEPTS_BY_STATE, {
     variables: { state: `${props.state}` },
   });
 
-  const toggleModal = (current, phone, street, city, zip) => {
+  const toggleModal = (current, phone, street, city, zip, state, string) => {
     setShowModal(!showModal);
     setCurrentAgency(current);
     setPhone(phone);
     setStreet(street);
     setCity(city);
     setZip(`${zip}`);
+    setState(state);
+    string === "favorites"
+      ? setButtonPressed("favorites")
+      : setButtonPressed("contacts");
   };
 
   if (loading) return <Loading initialLoad={false} message="Loading" />;
@@ -74,6 +80,8 @@ const SearchResults = (props) => {
     <ScrollView style={styles.scrollContainer}>
       {showModal && (
         <ContactsModal
+          state={state}
+          buttonPressed={buttonPressed}
           agency={currentAgency}
           showModal={showModal}
           toggleModal={toggleModal}
