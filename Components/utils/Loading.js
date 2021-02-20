@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
 
 const Loading = ({ initialLoad }) => {

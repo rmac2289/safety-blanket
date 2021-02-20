@@ -15,16 +15,6 @@ export const StateContextProvider = (props) => {
   );
 };
 
-export const FavoritesContextProvider = (props) => {
-  const [favorites, setFavorites] = useState([]);
-
-  return (
-    <FavoritesContext.Provider value={[favorites, setFavorites]}>
-      {props.children}
-    </FavoritesContext.Provider>
-  );
-};
-
 export const UserIdContextProvider = (props) => {
   const [userId, setUserId] = useState("");
 

@@ -12,7 +12,7 @@ import { ADD_FAVORITE } from "../graphql/Mutations";
 import { GET_FAVORITES } from "../graphql/Queries";
 import { UserIdContext } from "../../context";
 
-export const ContactsModal = ({
+export const ConfirmModal = ({
   showModal,
   toggleModal,
   agency,
@@ -173,4 +173,4 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 });
-export default ContactsModal;
+export default ConfirmModal;

@@ -6,7 +6,7 @@ import { GET_FAVORITES } from "./graphql/Queries";
 import { useQuery } from "@apollo/client";
 import CallOrMap from "./utils/CallOrMap";
 import AgencyHeading from "./utils/AgencyHeading";
-import ContactsModal from "./utils/ContactsModal";
+import ConfirmModal from "./utils/ConfirmModal";
 import { alphaSort } from "../services";
 
 const Favorites = () => {

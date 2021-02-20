@@ -1,17 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import AgencyHeading from "./utils/AgencyHeading";
-import { FavoritesContext } from "../context";
 import Loading from "./utils/Loading";
 import { alphaSort } from "../services";
 import CallOrMap from "./utils/CallOrMap";
 import { Divider } from "react-native-elements";
-import ContactsModal from "./utils/ContactsModal";
+import ConfirmModal from "./utils/ConfirmModal";
 import { useQuery } from "@apollo/client";
 import { DEPTS_BY_STATE } from "./graphql/Queries";
 
 const SearchResults = (props) => {
-  const [favorites, setFavorites] = useContext(FavoritesContext);
   const [currentPhone, setPhone] = useState("");
   const [currentStreet, setStreet] = useState("");
   const [currentCity, setCity] = useState("");
@@ -79,7 +77,7 @@ const SearchResults = (props) => {
   return (
     <ScrollView style={styles.scrollContainer}>
       {showModal && (
-        <ContactsModal
+        <ConfirmModal
           state={state}
           buttonPressed={buttonPressed}
           agency={currentAgency}

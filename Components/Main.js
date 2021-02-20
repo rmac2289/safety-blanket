@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -23,7 +23,6 @@ import Loading from "./utils/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useQuery } from "@apollo/client";
 import { ALL_DEPTS, DEPTS_BY_CITY } from "./graphql/Queries";
-import { FavoritesContext } from "../context";
 
 export default function Main({ navigation }) {
   const [location, setLocation] = useState(null);
@@ -33,7 +32,6 @@ export default function Main({ navigation }) {
   const [county, setCounty] = useState(null);
   const [state, setState] = useState(null);
   const { loading, data } = useQuery(ALL_DEPTS);
-  const [favorites, setFavorites] = useContext(FavoritesContext);
 
   useEffect(() => {
     (async () => {
@@ -88,7 +86,7 @@ export default function Main({ navigation }) {
           size={28}
         />
         {location ? (
-          <Text style={styles.text}>your closest agencies </Text>
+          <Text style={styles.text}>your closest agencies</Text>
         ) : (
           <Text style={styles.text}>Finding nearby agencies...</Text>
         )}
@@ -195,7 +193,7 @@ const styles = StyleSheet.create({
 
     borderWidth: 1,
     borderTopWidth: 2,
-    borderRadius: 5,
+
     justifyContent: "center",
     marginBottom: 30,
     marginTop: 10,

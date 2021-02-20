@@ -5,7 +5,7 @@ import { Divider } from "react-native-elements";
 import { useQuery } from "@apollo/client";
 import { DEPTS_BY_CITY } from "./graphql/Queries";
 import AgencyHeading from "./utils/AgencyHeading";
-import ContactsModal from "./utils/ContactsModal";
+import ConfirmModal from "./utils/ConfirmModal";
 
 const ClosestDepts = (props) => {
   const [currentPhone, setPhone] = useState("");
@@ -27,7 +27,9 @@ const ClosestDepts = (props) => {
     setZip(`${zip}`);
     string === "favorites"
       ? setButtonPressed("favorites")
-      : setButtonPressed("contacts");
+      : string === "contacts"
+      ? setButtonPressed("contacts")
+      : setButtonPressed("trash");
   };
   const filterAgencies = (v) => {
     return (
@@ -83,7 +85,7 @@ const ClosestDepts = (props) => {
   return (
     <ScrollView style={styles.scrollView}>
       {showModal && (
-        <ContactsModal
+        <ConfirmModal
           buttonPressed={buttonPressed}
           agency={currentAgency}
           state={state}
