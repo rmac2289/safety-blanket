@@ -18,13 +18,6 @@ export const StateContextProvider = (props) => {
 export const UserIdContextProvider = (props) => {
   const [userId, setUserId] = useState("");
 
-  // const removeId = async () => {
-  //   return await AsyncStorage.removeItem("user");
-  // };
-  // const clearAsync = async () => {
-  //   setUserId("");
-  //   return await AsyncStorage.clear();
-  // };
   const getUniqueId = async () => {
     let user;
     let keys = [];

@@ -8,6 +8,7 @@ import CallOrMap from "./utils/CallOrMap";
 import AgencyHeading from "./utils/AgencyHeading";
 import ConfirmModal from "./utils/ConfirmModal";
 import { alphaSort } from "../services";
+import * as Animatable from "react-native-animatable";
 
 const Favorites = () => {
   const [currentPhone, setPhone] = useState("");
@@ -38,7 +39,7 @@ const Favorites = () => {
     .map((v, i) => {
       return (
         <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
-          <View style={styles.container}>
+          <Animatable.View animation="fadeInUp" style={styles.container}>
             <AgencyHeading
               agency={v.agency}
               phone={v.phone}
@@ -56,7 +57,7 @@ const Favorites = () => {
               state={v.state}
               zip={v.zip}
             />
-          </View>
+          </Animatable.View>
           <Divider
             style={{ height: 0.5, backgroundColor: "rgba(255,255,255,0.3)" }}
           />

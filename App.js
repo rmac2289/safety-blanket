@@ -15,7 +15,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 // https://agile-badlands-28744.herokuapp.com/
 const Stack = createStackNavigator();
 const client = new ApolloClient({
-  uri: "http://192.168.19.83:4000/",
+  uri: "http://192.168.1.65:4000/",
   cache: new InMemoryCache(),
 });
 

@@ -6,7 +6,7 @@ import { useQuery } from "@apollo/client";
 import { DEPTS_BY_CITY } from "./graphql/Queries";
 import AgencyHeading from "./utils/AgencyHeading";
 import ConfirmModal from "./utils/ConfirmModal";
-
+import * as Animatable from "react-native-animatable";
 const ClosestDepts = (props) => {
   const [currentPhone, setPhone] = useState("");
   const [currentStreet, setStreet] = useState("");
@@ -40,23 +40,13 @@ const ClosestDepts = (props) => {
     );
   };
 
-  // ***** get this working to eliminate filtering ******
-  // const { data } = useQuery(DEPTS_BY_CITY, {
-  //   variables: {
-  //     city: props.city,
-  //     county: props.county,
-  //     state: props.state,
-  //   },
-  // });
-  // console.log(data);
-
-  const agencyList = props.data.agencies.filter(filterAgencies);
+  const agencyList = props.data?.agencies?.filter(filterAgencies);
 
   const displayedAgencies = agencyList.map((v) => {
     v.zip.length === 4 ? (v.zip = `0${v.zip}`) : null;
     return (
       <React.Fragment key={v.agency}>
-        <View style={styles.container}>
+        <Animatable.View animation="fadeInUp" style={styles.container}>
           {v.agency.includes("State") ||
             (v.agency.includes("Highway") && (
               <Text style={styles.hwyText}>On a state highway?</Text>
@@ -77,7 +67,7 @@ const ClosestDepts = (props) => {
             state={v.state}
             zip={v.zip}
           />
-        </View>
+        </Animatable.View>
         <Divider style={styles.divider} />
       </React.Fragment>
     );

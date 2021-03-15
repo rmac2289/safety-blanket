@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faAddressBook,
@@ -26,6 +26,24 @@ const AgencyHeading = ({
   const [deleteFavorite] = useMutation(DELETE_FAVORITE, {
     refetchQueries: [{ query: GET_FAVORITES, variables: { userId: userId } }],
   });
+  const confirmDelete = () =>
+    Alert.alert(`Delete ${agency} from favorites?`, "", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        onPress: () =>
+          deleteFavorite({
+            variables: {
+              userId: userId,
+              favorite: { agency, state },
+            },
+          }),
+        style: "destructive",
+      },
+    ]);
 
   return (
     <View style={styles.titleContainer}>
@@ -59,14 +77,7 @@ const AgencyHeading = ({
         ) : (
           <TouchableOpacity
             style={styles.contactsButton}
-            onPress={() =>
-              deleteFavorite({
-                variables: {
-                  userId: userId,
-                  favorite: { agency, state },
-                },
-              })
-            }
+            onPress={confirmDelete}
           >
             <FontAwesomeIcon
               icon={faTrashAlt}

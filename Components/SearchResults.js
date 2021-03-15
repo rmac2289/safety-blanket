@@ -8,6 +8,7 @@ import { Divider } from "react-native-elements";
 import ConfirmModal from "./utils/ConfirmModal";
 import { useQuery } from "@apollo/client";
 import { DEPTS_BY_STATE } from "./graphql/Queries";
+import * as Animatable from "react-native-animatable";
 
 const SearchResults = (props) => {
   const [currentPhone, setPhone] = useState("");
@@ -49,7 +50,7 @@ const SearchResults = (props) => {
     .map((v, i) => {
       return (
         <React.Fragment key={`${v.agency}${(i * 100) % 30}`}>
-          <View style={styles.container}>
+          <Animatable.View animation="fadeInUp" style={styles.container}>
             <AgencyHeading
               agency={v.agency}
               phone={v.phone}
@@ -66,7 +67,7 @@ const SearchResults = (props) => {
               state={v.state}
               zip={v.zip}
             />
-          </View>
+          </Animatable.View>
           <Divider
             style={{ height: 0.5, backgroundColor: "rgba(255,255,255,0.3)" }}
           />
