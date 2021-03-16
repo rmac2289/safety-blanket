@@ -17,7 +17,7 @@ const Favorites = () => {
   const [currentZip, setZip] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [currentAgency, setCurrentAgency] = useState("");
-  const [userId, setUserId] = useContext(UserIdContext);
+  const [email, setEmail] = useContext(UserIdContext);
 
   const toggleModal = (current, phone, street, city, zip) => {
     setShowModal(!showModal);
@@ -29,7 +29,7 @@ const Favorites = () => {
   };
   const { loading, data } = useQuery(GET_FAVORITES, {
     variables: {
-      userId: userId,
+      email: email,
     },
   });
 

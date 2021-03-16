@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
+  Button,
   TouchableOpacity,
 } from "react-native";
 import Error from "./utils/Error";
@@ -23,6 +24,7 @@ import Loading from "./utils/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useQuery } from "@apollo/client";
 import { ALL_DEPTS, DEPTS_BY_CITY } from "./graphql/Queries";
+import SignInModal from "./utils/SignInModal";
 
 export default function Main({ navigation }) {
   const [location, setLocation] = useState(null);
@@ -69,66 +71,72 @@ export default function Main({ navigation }) {
   }
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.nine11}>
-        <Text style={styles.nine11Text}>Emergency?</Text>
-        <TouchableOpacity
-          activeOpacity={0.5}
-          onPress={() => openPhone("911")}
-          style={styles.call911}
-        >
-          <Text style={styles.call911Text}>Call 9-1-1</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.textView}>
-        <FontAwesomeIcon
-          icon={faMapMarkedAlt}
-          color="rgb(40,75,200)"
-          size={28}
-        />
-        {location ? (
-          <Text style={styles.text}>your closest agencies</Text>
-        ) : (
-          <Text style={styles.text}>Finding nearby agencies...</Text>
-        )}
-        <FontAwesomeIcon
-          icon={faCaretDown}
-          color="rgb(255,255,255)"
-          size={42}
-          style={styles.icon}
-        />
-      </View>
-      <View>
-        {loading || !city ? (
-          <Loading initialLoad={true} />
-        ) : (
-          <ClosestDepts
-            loading={loading}
-            data={data}
-            state={state}
-            city={city}
-            county={county}
+      {true ? (
+        <SignInModal />
+      ) : (
+        <>
+          <View style={styles.nine11}>
+            <Text style={styles.nine11Text}>Emergency?</Text>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => openPhone("911")}
+              style={styles.call911}
+            >
+              <Text style={styles.call911Text}>Call 9-1-1</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.textView}>
+            <FontAwesomeIcon
+              icon={faMapMarkedAlt}
+              color="rgb(40,75,200)"
+              size={28}
+            />
+            {location ? (
+              <Text style={styles.text}>your closest agencies</Text>
+            ) : (
+              <Text style={styles.text}>Finding nearby agencies...</Text>
+            )}
+            <FontAwesomeIcon
+              icon={faCaretDown}
+              color="rgb(255,255,255)"
+              size={42}
+              style={styles.icon}
+            />
+          </View>
+          <View>
+            {loading || !city ? (
+              <Loading initialLoad={true} />
+            ) : (
+              <ClosestDepts
+                loading={loading}
+                data={data}
+                state={state}
+                city={city}
+                county={county}
+              />
+            )}
+          </View>
+          <NavButton
+            buttonPress={deptButtonPress}
+            icon={faListUl}
+            title="All Departments"
           />
-        )}
-      </View>
-      <NavButton
-        buttonPress={deptButtonPress}
-        icon={faListUl}
-        title="All Departments"
-      />
-      <View style={styles.faq}>
-        <NavButton
-          buttonPress={favButtonPress}
-          icon={faHeart}
-          title="Favorites"
-        />
-      </View>
-      <View style={styles.faq}>
-        <NavButton
-          buttonPress={faqButtonPress}
-          icon={faQuestionCircle}
-          title="911 FAQ"
-        />
-      </View>
+          <View style={styles.faq}>
+            <NavButton
+              buttonPress={favButtonPress}
+              icon={faHeart}
+              title="Favorites"
+            />
+          </View>
+          <View style={styles.faq}>
+            <NavButton
+              buttonPress={faqButtonPress}
+              icon={faQuestionCircle}
+              title="911 FAQ"
+            />
+          </View>
+        </>
+      )}
     </ScrollView>
   );
 }

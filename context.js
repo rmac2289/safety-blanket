@@ -18,25 +18,15 @@ export const StateContextProvider = (props) => {
 export const UserIdContextProvider = (props) => {
   const [userId, setUserId] = useState("");
 
-  const getUniqueId = async () => {
-    let user;
-    let keys = [];
-    try {
-      keys = await AsyncStorage.getAllKeys();
-      user = await AsyncStorage.getItem("user");
-      if (user === null || !keys.includes("user")) {
-        const uniqueId = JSON.stringify(Random.getRandomBytes(128).join(""));
-        setUserId(uniqueId);
-        return await AsyncStorage.setItem("user", uniqueId);
-      } else {
-        let existingUser = await AsyncStorage.getItem("user");
-        setUserId(JSON.parse(existingUser));
-      }
-    } catch (e) {
-      console.log(e);
+  const getUser = async () => {
+    // await AsyncStorage.clear();
+    let existingUser = await AsyncStorage.getItem("userId");
+    if (existingUser !== null) {
+      setUserId(JSON.parse(existingUser));
     }
   };
-  getUniqueId();
+  getUser();
+
   return (
     <UserIdContext.Provider value={[userId, setUserId]}>
       {props.children}
