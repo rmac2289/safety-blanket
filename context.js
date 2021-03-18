@@ -25,7 +25,7 @@ export const UserIdContextProvider = (props) => {
       keys = await AsyncStorage.getAllKeys();
       user = await AsyncStorage.getItem("user");
       if (user === null || !keys.includes("user")) {
-        const uniqueId = JSON.stringify(Random.getRandomBytes(128).join(""));
+        const uniqueId = "1000";
         setUserId(uniqueId);
         return await AsyncStorage.setItem("user", uniqueId);
       } else {

@@ -12,10 +12,10 @@ import Faq from "./Components/Faq";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faAngleDoubleLeft } from "@fortawesome/free-solid-svg-icons";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-
+// https://agile-badlands-28744.herokuapp.com/
 const Stack = createStackNavigator();
 const client = new ApolloClient({
-  uri: "https://agile-badlands-28744.herokuapp.com/",
+  uri: "http://192.168.19.96:4000/",
   cache: new InMemoryCache(),
 });
 

@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 
 export const ALL_DEPTS = gql`
   query agencies {
@@ -51,3 +51,16 @@ export const GET_FAVORITES = gql`
     }
   }
 `;
+
+export const GET_USER = gql`
+  query getUser($userId: String!) {
+    getUser(userId: $userId) {
+      id
+    }
+  }
+`;
+
+export function useUser(email) {
+  const { data } = useQuery(GET_USER, { variables: email });
+  return data;
+}

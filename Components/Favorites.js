@@ -32,7 +32,7 @@ const Favorites = () => {
       userId: userId,
     },
   });
-
+  console.log(userId);
   const favList = data?.favorites
     .slice()
     .sort(alphaSort)
