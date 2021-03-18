@@ -1,9 +1,9 @@
 import { gql } from "@apollo/client";
 
 export const ADD_FAVORITE = gql`
-  mutation addFavorite($id: ID!, $favorites: FavoriteInput!) {
-    addFavorite(id: $id, favorites: $favorites) {
-      id
+  mutation addFavorite($userId: String!, $favorites: FavoriteInput!) {
+    addFavorite(userId: $userId, favorites: $favorites) {
+      userId
       favorites {
         agency
       }
@@ -12,20 +12,12 @@ export const ADD_FAVORITE = gql`
 `;
 
 export const DELETE_FAVORITE = gql`
-  mutation deleteFavorite($id: ID!, $favorite: DeleteFavorite!) {
-    deleteFavorite(id: $id, favorite: $favorite) {
-      id
+  mutation deleteFavorite($userId: String!, $favorite: DeleteFavorite!) {
+    deleteFavorite(userId: $userId, favorite: $favorite) {
+      userId
       favorites {
         agency
       }
-    }
-  }
-`;
-
-export const ADD_USER = gql`
-  mutation addUser($userId: String!) {
-    addUser(userId: $userId) {
-      id
     }
   }
 `;
