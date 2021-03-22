@@ -26,12 +26,12 @@ import { ALL_DEPTS, DEPTS_BY_CITY } from "./graphql/Queries";
 
 export default function Main({ navigation }) {
   const [location, setLocation] = useState(null);
-  const [error, setError] = useState(false);
+  const [locationError, setLocationError] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [city, setCity] = useState(null);
   const [county, setCounty] = useState(null);
   const [state, setState] = useState(null);
-  const { loading, data } = useQuery(ALL_DEPTS);
+  const { loading, data, error } = useQuery(ALL_DEPTS);
 
   useEffect(() => {
     (async () => {
@@ -50,7 +50,7 @@ export default function Main({ navigation }) {
       setCounty(reverseGeo[0].subregion);
       setState(reverseGeo[0].region);
       if (!reverseGeo[0].city) {
-        setError(true);
+        setLocationError(true);
       }
     })();
   }, []);
@@ -64,9 +64,7 @@ export default function Main({ navigation }) {
   const favButtonPress = () => {
     navigation.navigate("Favorites");
   };
-  if (error) {
-    return <Error />;
-  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.nine11}>
@@ -98,7 +96,9 @@ export default function Main({ navigation }) {
         />
       </View>
       <View>
-        {loading || !city ? (
+        {!loading && error ? (
+          <Error />
+        ) : loading || !city ? (
           <Loading initialLoad={true} />
         ) : (
           <ClosestDepts

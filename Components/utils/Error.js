@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "rgba(255,255,255,0.9)",
+    lineHeight: 25,
     fontSize: 18,
     height: 100,
     marginTop: 5,
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0,0,0,0.95)",
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height / 2,
   },
 });
 

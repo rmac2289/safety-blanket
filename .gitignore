@@ -7,8 +7,12 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
+.expo-shared/*
+.vscode
+assets
 web-build/
 Data.js
-
+api.js
+yarn.lock
 # macOS
 .DS_Store
