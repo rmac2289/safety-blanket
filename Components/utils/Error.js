@@ -6,8 +6,9 @@ const Error = () => {
     <View style={styles.errorBackground}>
       <View style={styles.error}>
         <Text style={styles.errorText}>
-          Whoops, looks like something went wrong. Sorry about that! Try closing
-          the app and opening it back up again.
+          Whoops, looks like something went wrong. Sorry about that! Make sure
+          you have location enabled for Safety Blanket and try reopening the
+          app.
         </Text>
       </View>
     </View>

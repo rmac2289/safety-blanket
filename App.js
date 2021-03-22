@@ -15,7 +15,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 // https://agile-badlands-28744.herokuapp.com/
 const Stack = createStackNavigator();
 const client = new ApolloClient({
-  uri: "http://192.168.1.65:4000/",
+  uri: "http://192.168.19.108:4000/",
   cache: new InMemoryCache(),
 });
 
@@ -112,7 +112,7 @@ const App = () => {
                     headerTintColor: "#fff",
                   }}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                   name="Favorites"
                   component={Favorites}
                   options={{
@@ -136,7 +136,7 @@ const App = () => {
                     },
                     headerTintColor: "#fff",
                   }}
-                />
+                /> */}
               </Stack.Navigator>
             </NavigationContainer>
           </SafeAreaProvider>

@@ -115,13 +115,13 @@ export default function Main({ navigation }) {
         icon={faListUl}
         title="All Departments"
       />
-      <View style={styles.faq}>
+      {/* <View style={styles.faq}>
         <NavButton
           buttonPress={favButtonPress}
           icon={faHeart}
           title="Favorites"
         />
-      </View>
+      </View> */}
       <View style={styles.faq}>
         <NavButton
           buttonPress={faqButtonPress}

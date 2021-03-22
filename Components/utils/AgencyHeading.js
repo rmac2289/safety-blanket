@@ -65,7 +65,7 @@ const AgencyHeading = ({
           />
         </TouchableOpacity>
 
-        {!favoritesPage ? (
+        {/* {!favoritesPage ? (
           <TouchableOpacity
             style={styles.contactsButton}
             onPress={() =>
@@ -85,7 +85,7 @@ const AgencyHeading = ({
               size={28}
             />
           </TouchableOpacity>
-        )}
+        )} */}
       </View>
     </View>
   );
