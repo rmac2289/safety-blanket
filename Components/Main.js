@@ -35,13 +35,15 @@ export default function Main({ navigation }) {
 
   useEffect(() => {
     (async () => {
-      let { status } = await Location.requestPermissionsAsync();
+      let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Location Permission Denied");
+        return;
       }
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
+
       let reverseGeo = await Location.reverseGeocodeAsync({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,

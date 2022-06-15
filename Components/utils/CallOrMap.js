@@ -12,17 +12,17 @@ const CallOrMap = ({ phone, street, city, state, zip }) => {
         style={styles.button}
         onPress={() => openPhone(phone)}
       >
-        <FontAwesomeIcon style={styles.icon} icon={faPhone} />
+        <FontAwesomeIcon style={styles.icon} icon={faPhone} size={25} />
 
-        <Text style={styles.buttonText}>{formatPhoneNum(phone)}</Text>
+        {/* <Text style={styles.buttonText}>{formatPhoneNum(phone)}</Text> */}
       </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => openMaps(street, city, state, zip)}
         style={styles.mapsButton}
       >
-        <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} />
-        <Text style={styles.buttonText}>Open Google Maps</Text>
+        <FontAwesomeIcon style={styles.icon} icon={faMapMarkerAlt} size={25} />
+        {/* <Text style={styles.buttonText}>Open Google Maps</Text> */}
       </TouchableOpacity>
     </View>
   );
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   buttonBox: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
     width: "100%",
     shadowColor: "rgb(40,75,220)",
     shadowOffset: { height: 1, width: 1 },
@@ -40,42 +41,34 @@ const styles = StyleSheet.create({
   },
   icon: {
     color: "rgba(255,255,255,0.9)",
-    fontSize: 32,
+    fontSize: 50,
     padding: 5,
   },
   buttonText: {
     fontSize: 16,
     padding: 5,
-    color: "rgba(255,255,255,0.9)",
+    color: "rgba(255,255,255)",
   },
   button: {
-    backgroundColor: "rgba(40,75,200,0.2)",
-    borderWidth: 2,
-    borderColor: "rgba(40, 75, 200, 0.8)",
-    flex: 1,
-    height: 55,
+    width: 85,
+    marginRight: 5,
+    height: 65,
     display: "flex",
+    flex: 2,
     flexDirection: "row",
-    borderTopLeftRadius: 7,
-    borderBottomLeftRadius: 7,
-    borderBottomRightRadius: 0,
-    borderTopRightRadius: 0,
-    borderRightWidth: 0,
+    borderRadius: 5,
     alignItems: "center",
     justifyContent: "space-evenly",
+    backgroundColor: "rgb(118, 200, 100)",
   },
   mapsButton: {
     backgroundColor: "rgba(40,75,200,0.8)",
+    height: 65,
     flex: 1,
-    height: 55,
+    width: 65,
     borderWidth: 2,
     borderColor: "rgba(40, 75, 200, 0.2)",
-    width: "100%",
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 7,
-    borderTopRightRadius: 7,
-    borderLeftWidth: 4,
+    borderRadius: 5,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",

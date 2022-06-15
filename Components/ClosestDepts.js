@@ -41,16 +41,18 @@ const ClosestDepts = (props) => {
   };
 
   const agencyList = props.data?.agencies?.filter(filterAgencies);
-
   const displayedAgencies = agencyList.map((v) => {
     v.zip.length === 4 ? (v.zip = `0${v.zip}`) : null;
     return (
       <React.Fragment key={v.agency}>
         <Animatable.View animation="fadeInUp" style={styles.container}>
           {v.agency.includes("State") ||
-            (v.agency.includes("Highway") && (
-              <Text style={styles.hwyText}>On a state highway?</Text>
+            (v.agency.includes("Highway") ? (
+              <Text style={styles.hwyText}>State</Text>
+            ) : (
+              <Text style={styles.hwyText}>Local</Text>
             ))}
+
           <AgencyHeading
             agency={v.agency}
             phone={v.phone}
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   divider: {
-    backgroundColor: "rgba(255,255,255,0.3)",
+    backgroundColor: "rgb(255,255,255)",
     height: 0.5,
     marginBottom: 10,
   },
