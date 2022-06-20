@@ -5,7 +5,7 @@ import { Divider } from "react-native-elements";
 import { useQuery } from "@apollo/client";
 import { DEPTS_BY_CITY } from "./graphql/Queries";
 import AgencyHeading from "./utils/AgencyHeading";
-import ConfirmModal from "./utils/ConfirmModal";
+// import ConfirmModal from "./utils/ConfirmModal";
 import * as Animatable from "react-native-animatable";
 const ClosestDepts = (props) => {
   const [currentPhone, setPhone] = useState("");
@@ -60,7 +60,6 @@ const ClosestDepts = (props) => {
             city={v.city}
             state={v.state}
             zip={v.zip}
-            toggleModal={toggleModal}
           />
           <CallOrMap
             phone={v.phone}
@@ -68,6 +67,8 @@ const ClosestDepts = (props) => {
             city={v.city}
             state={v.state}
             zip={v.zip}
+            toggleModal={toggleModal}
+            agency={v.agency}
           />
         </Animatable.View>
         <Divider style={styles.divider} />
@@ -76,7 +77,7 @@ const ClosestDepts = (props) => {
   });
   return (
     <ScrollView style={styles.scrollView}>
-      {showModal && (
+      {/* {showModal && (
         <ConfirmModal
           buttonPressed={buttonPressed}
           agency={currentAgency}
@@ -88,7 +89,7 @@ const ClosestDepts = (props) => {
           currentCity={currentCity}
           currentZip={currentZip}
         />
-      )}
+      )} */}
       {displayedAgencies}
     </ScrollView>
   );
